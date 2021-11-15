@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "918537269315",
+    "project_id": "flutter-glpimobile",
+    "storage_bucket": "flutter-glpimobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918537269315:android:c68bff6866f0d2fc50e4f6",
+        "android_client_info": {
+          "package_name": "net.intservices.glpi_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918537269315-r93gh46speajlc63a1qrc7e02a2nnk1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzWknwMyDKoZIVG43H1de-k1evBrxntUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918537269315-r93gh46speajlc63a1qrc7e02a2nnk1v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

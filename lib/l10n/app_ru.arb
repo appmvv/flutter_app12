@@ -1,0 +1,92 @@
+{
+    "mainTitle": "Заявки",
+
+    "settings": "Установки",
+
+    "url": "Url",
+    "enterUrl": "Укажите url вашего glpi сервера",
+
+    "name": "Имя",
+    "enterName": "Укажите имя пользователя",
+
+    "password": "Пароль",
+    "enterPassword": "Укажите пароль",
+
+    "errorSettings": "Заполните настройки.",
+    "save": "Сохранить",
+    "saved": "Сохранено",
+
+    "notsolvedonly": "Показывать только нерешенные заявки",
+    "getmessages": "Получать уведомления",
+
+    "errorSessionToken": "Ошибка подключения к серверу",
+
+    "errorSendingTokenFCM": "Ошибка отправки токена FCM на сервер. Проверьте glpimobilenotification плагин на сервере.",
+
+    "ticket": "Заявка",
+    "newticket": "Добавлена новая заявка",
+    "tikets": "Заявки",
+    "errorTicketList": "Список заявок пустой. Проверьте установки и доступ в интернет.",
+    "errorTicket": "Заявка не найдена. Проверьте доступ в интернет.",
+
+    "ticketName": "Заголовок",
+    "ticketContent": "Описание",
+    "ticketStatus": "Статус",
+    "ticketPriority": "Приоритет",
+    "ticketUrgency": "Срочность",
+    "ticketImpact": "Влияние",
+    "ticketCategory": "Категория",
+    "ticketResolveTime": "Время до решения",
+    "ticketType": "Тип",
+
+    "ticket_priority0": "Все",
+    "ticket_priority1": "Очень низкий",
+    "ticket_priority2": "Низкий",
+    "ticket_priority3": "Средний",
+    "ticket_priority4": "Высокий",
+    "ticket_priority5": "Очень высокий",
+    "ticket_priority6": "Наивысший",
+
+    "ticket_type0": "Все",
+    "ticket_type1": "Инцидент",
+    "ticket_type2": "Запрос",
+
+    "ticket_status0": "Все",
+    "ticket_status1": "Новый",
+    "ticket_status2": "В работе(назначена)",
+    "ticket_status3": "В работе (запланировано)",
+    "ticket_status4": "Ожидающие решения",
+    "ticket_status5": "Решена",
+    "ticket_status6": "Закрыто",
+
+    "ticket_impact0": "Все",
+    "ticket_impact1": "Очень низкое",
+    "ticket_impact2": "Низкое",
+    "ticket_impact3": "Среднее",
+    "ticket_impact4": "Высокое",
+    "ticket_impact5": "Очень высокое",
+
+    "ticket_urgency0": "Все",
+    "ticket_urgency1": "Очень низкая",
+    "ticket_urgency2": "Низкая",
+    "ticket_urgency3": "Средняя",
+    "ticket_urgency4": "Высокая",
+    "ticket_urgency5": "Очень высокая",
+
+    "newfollowup": "Добавлен новый комментарий к заявке",
+    "followups": "Комментарии",
+    "errorFollowup": "Ошибка получения комментариев",
+    "followup_message": "Введите комментарий",
+    "followup_added": "Комментарий добавлен",
+    "followup_adding_error": "Ошибка добавления комментария",
+
+    "solutions": "Решение",
+    "errorSolution": "Ошибка получения решения",
+    "solution_added": "Решение добавлено",
+    "solution_adding_error": "Решение не добавлено",
+    "solutionContent": "Описание",
+    "solutionType": "Тип решения",
+
+    "required": "Необходимо заполнить"
+
+}
