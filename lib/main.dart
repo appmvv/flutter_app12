@@ -1,8 +1,3 @@
-// Copyright 2018 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// import 'dart:html';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -18,19 +13,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/Settings.dart';
-
-/*
-Future<void> main() async {
-//  debugPrintRebuildDirtyWidgets = true;
-  return runApp(
-      BlocProvider<ApplicationBloc>(
-        bloc: ApplicationBloc(),
-          child: GlpiApp(),
-
-      )
-  );
-}
-*/
 
 ///////////// firebase start
 
@@ -57,36 +39,9 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-/*
-
-// Crude counter to make messages unique
-int _messageCount = 0;
-
-/// The API endpoint here accepts a raw FCM payload for demonstration purposes.
-String constructFCMPayload(String token) {
-  _messageCount++;
-  return jsonEncode({
-    'token': token,
-    'data': {
-      'via': 'FlutterFire Cloud Messaging!!!',
-      'count': _messageCount.toString(),
-    },
-    'notification': {
-      'title': 'Hello FlutterFire!',
-      'body': 'This notification (#$_messageCount) was created via FCM!',
-    },
-  });
-}
-
-
- */
-
 ////////////// firebase end
 
 Future<void> main() async {
-
-
-  //////////////////////////////////
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -120,40 +75,17 @@ Future<void> main() async {
   Settings.notSolvedOnly=preferences.getBool("notsolvedonly") ?? true;
   Settings.credentials=preferences.getString("credentials") ?? "";
 
-  ////////////////////////////////// token & users
+  //////////// token & users
 
   Stream<String> _tokenStream;
 
   void setToken(String token) async {
 
-//    SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("FCMtoken", token);
     Settings.tokenFCM=token;
-//    if (token != Settings.tokenFCM)  GlpiApi().sendToken(token);
-
-//    GlpiApi().sendToken(token);
 
   }
 
-
-/*
-  ///////////// other settings /////////////////////
-  void setSettings() async {
-    // get user to determine current user id
-    api.getEntities().then((list) {
-      if (!list.isEmpty) {
-        Settings.setEntities(list);
-      }
-    });
-    api.getCategories().then((list) {
-      if (!list.isEmpty) {
-        Settings.setCategories(list);
-      }
-    });
-  }*/
-
-
-//  setSettings();
 
   FirebaseMessaging.instance.getToken().then(setToken);
   _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
@@ -161,15 +93,12 @@ Future<void> main() async {
 
   runApp(GlpiApp());
 
-//  runApp(MessagingExampleApp());
 }
 
 class GlpiApp extends StatelessWidget {
-  // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
-//    Settings.current_context=context;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
@@ -182,8 +111,6 @@ class GlpiApp extends StatelessWidget {
         const Locale('en', ''),
         const Locale('ru', ''),
       ],
-//      title: 'Tickets',
-      // TODO - start page when application first launch
       home:  Settings.glpiUrl==Settings.initUrl ? SettingsPage() : TicketListPage(),
     );
   }

@@ -575,14 +575,14 @@ class GlpiApi {
   // в main каждый раз при получении FCM token записывается в preferencies и устанвливается Settings.tokenFCM
   // при входпе в settingPage также Settings.tokenFCM устанвливается из preferencies
 
-  // sendToken вызывается из getUsers каждый раз после получения users (чтобы не дублировать и не ждать  обновление users)
+  // sendToken вызывается из getUsers каждый раз после получения users (чтобы не дублировать и не ждать  обновления users)
   // или из SettingPage при сохранении установок
 
   Future<String> sendToken() async {
 
     String token = Settings.getMessages ? Settings.tokenFCM : "";
 
-    // если token отличаетсч от того что на сервере - то пишем на сервер
+    // если token отличается от того что на сервере - то пишем на сервер
     if (Settings.users[Settings.userName] != null &&
         Settings.tokenPrefix + token !=
             Settings.users[Settings.userName].mobile_notification) {

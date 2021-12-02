@@ -69,7 +69,7 @@ class TicketListState extends State<TicketList> {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
 
-      // create android notodocation
+      // create android notification
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
