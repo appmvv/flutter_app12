@@ -6,12 +6,17 @@ import 'package:intl/intl.dart';
 import 'SolutionType.dart';
 import 'User.dart';
 
+import 'dart:io' as io show Platform ;
+
 class Settings {
   static BuildContext current_context;
 
   ///// Consts
   static final String initUrl="https://<YOUR GLPI SERVER>/apirest.php/";
-  static final String tokenPrefix = "FBT:";
+  static final String tokenAndroidPrefix = "FBT:";
+  static final String tokenIosPrefix = "FTIOS:";
+  static final String tokenPrefix = io.Platform.isIOS ? tokenIosPrefix : tokenAndroidPrefix;
+
   static final String glpiDateFormat = "yyyy-MM-dd HH:mm:ss";
   static final String appDateFormat = "dd.MM.yy HH:mm";
 
