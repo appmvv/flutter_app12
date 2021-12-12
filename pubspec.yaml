@@ -60,10 +60,9 @@ dependencies:
 
   provider: ^5.0.0
 
-
 flutter_icons:
   android: "launcher_icon"
-  ios: "launcher_icon"
+  ios: true
   image_path: "assets/icon/int-services-1024.png"
   remove_alpha_ios: true
 
