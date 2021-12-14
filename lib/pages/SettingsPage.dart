@@ -131,9 +131,13 @@ class SettingsPageState extends State<SettingsPage> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
+
+                                    _getmessages && defaultTargetPlatform == TargetPlatform.iOS ? MetaCard('Permissions', Permissions()) : SizedBox(height: 10,),
+
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+
                                     TextFormField( // URL
                                       autovalidateMode: AutovalidateMode.always,
                                       initialValue: _url,
@@ -231,7 +235,7 @@ class SettingsPageState extends State<SettingsPage> {
                                       },
                                     ),
 
-                                    _getmessages && defaultTargetPlatform == TargetPlatform.iOS ? MetaCard('Permissions', Permissions()) : SizedBox(height: 20,),
+                                    SizedBox(height: 20,),
 
                                     ElevatedButton( // Save
                                       onPressed: () {
