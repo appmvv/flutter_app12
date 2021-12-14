@@ -75,11 +75,24 @@ class _Permissions extends State<Permissions> {
     }
 
     return Column(children: [
-      _settings.authorizationStatus == AuthorizationStatus.authorized
+
+      row('Authorization Status', statusMap[_settings.authorizationStatus]),
+      if (defaultTargetPlatform == TargetPlatform.iOS) ...[
+        row('Alert', settingsMap[_settings.alert]),
+        row('Announcement', settingsMap[_settings.announcement]),
+        row('Badge', settingsMap[_settings.badge]),
+        row('Car Play', settingsMap[_settings.carPlay]),
+        row('Lock Screen', settingsMap[_settings.lockScreen]),
+        row('Notification Center', settingsMap[_settings.notificationCenter]),
+        row('Show Previews', previewMap[_settings.showPreviews]),
+        row('Sound', settingsMap[_settings.sound]),
+      ],
+
+/*      _settings.authorizationStatus == AuthorizationStatus.authorized
           ? Text('User granted permission')
           : (_settings.authorizationStatus == AuthorizationStatus.denied
               ? Text('User declined or has not accepted permission')
-              : Text(_settings.authorizationStatus.toString())),
+              : Text(_settings.authorizationStatus.toString())),*/
  //     ElevatedButton(
  //         onPressed: () => {}, child: const Text('Reload Permissions')),
     ]);
