@@ -2,15 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/GlpiApi.dart';
 import 'package:flutter_app/models/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:flutter_app/firebase/permissions.dart';
 
 import 'TicketListPage.dart';
 
@@ -86,7 +83,7 @@ class SettingsPageState extends State<SettingsPage> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
-                                    Padding( // solved only
+                                    Padding(
                                       padding: EdgeInsets.only(left: 40),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment
@@ -111,7 +108,7 @@ class SettingsPageState extends State<SettingsPage> {
                                     // SizedBox(
                                     //   height: 10,
                                     // ),
-                                    Padding( // getmessged
+                                    Padding(
                                       padding: EdgeInsets.only(left: 40),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment
@@ -131,14 +128,10 @@ class SettingsPageState extends State<SettingsPage> {
                                         ],
                                       ),
                                     ),
-
-                                    _getmessages && defaultTargetPlatform == TargetPlatform.iOS ? MetaCard('Permissions', Permissions()) : SizedBox(height: 10,),
-
-                                    // SizedBox(
-                                    //   height: 10,
-                                    // ),
-
-                                    TextFormField( // URL
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    TextFormField(
                                       autovalidateMode: AutovalidateMode.always,
                                       initialValue: _url,
                                       decoration: InputDecoration(
@@ -169,7 +162,7 @@ class SettingsPageState extends State<SettingsPage> {
                                         }
                                       },
                                     ),
-                                    TextFormField( // NAME
+                                    TextFormField(
                                       autovalidateMode: AutovalidateMode.always,
                                       initialValue: _user,
                                       decoration: InputDecoration(
@@ -195,7 +188,7 @@ class SettingsPageState extends State<SettingsPage> {
                                         }
                                       },
                                     ),
-                                    TextFormField( // Password
+                                    TextFormField(
                                       autovalidateMode: AutovalidateMode.always,
                                       initialValue: _password,
                                       obscureText: _obscurePass,
@@ -234,10 +227,10 @@ class SettingsPageState extends State<SettingsPage> {
                                         }
                                       },
                                     ),
-
-                                    SizedBox(height: 20,),
-
-                                    ElevatedButton( // Save
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    ElevatedButton(
                                       onPressed: () {
                                         // Validate returns true if the form is valid, or false otherwise.
                                         String text =
@@ -326,37 +319,4 @@ class SettingsPageState extends State<SettingsPage> {
 
   }
 
-
-
-}
-
-/// UI Widget for displaying metadata.
-class MetaCard extends StatelessWidget {
-  final String _title;
-  final Widget _children;
-
-  // ignore: public_member_api_docs
-  MetaCard(this._title, this._children);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(left: 8, right: 8, top: 8),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Text(_title, style: const TextStyle(fontSize: 18)),
-              ),
-              _children,
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
