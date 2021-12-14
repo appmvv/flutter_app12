@@ -15,30 +15,16 @@ class _Permissions extends State<Permissions> {
   bool _fetching = false;
   NotificationSettings _settings;
 
-  Future<void> getPermissions() async {
-    setState(() {
-      _fetching = true;
-    });
-
-    NotificationSettings settings =
-        await FirebaseMessaging.instance.getNotificationSettings();
-
-    setState(() {
-      _fetching = false;
-      _settings = settings;
-    });
-  }
-
   Future<void> requestPermissions() async {
     setState(() {
       _fetching = true;
     });
 
     NotificationSettings settings =
-        await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
+    await FirebaseMessaging.instance.requestPermission(
+      announcement: true,
+      carPlay: true,
+      criticalAlert: true,
     );
 
     setState(() {
@@ -67,15 +53,13 @@ class _Permissions extends State<Permissions> {
       return const CircularProgressIndicator();
     }
 
-    if (!_requested &&
-        _settings.authorizationStatus == AuthorizationStatus.notDetermined) {
+    if (!_requested) {
       return ElevatedButton(
           onPressed: requestPermissions,
           child: const Text('Request Permissions'));
     }
 
     return Column(children: [
-
       row('Authorization Status', statusMap[_settings.authorizationStatus]),
       if (defaultTargetPlatform == TargetPlatform.iOS) ...[
         row('Alert', settingsMap[_settings.alert]),
@@ -87,14 +71,8 @@ class _Permissions extends State<Permissions> {
         row('Show Previews', previewMap[_settings.showPreviews]),
         row('Sound', settingsMap[_settings.sound]),
       ],
-
-/*      _settings.authorizationStatus == AuthorizationStatus.authorized
-          ? Text('User granted permission')
-          : (_settings.authorizationStatus == AuthorizationStatus.denied
-              ? Text('User declined or has not accepted permission')
-              : Text(_settings.authorizationStatus.toString())),*/
- //     ElevatedButton(
- //         onPressed: () => {}, child: const Text('Reload Permissions')),
+      ElevatedButton(
+          onPressed: () => {}, child: const Text('Reload Permissions')),
     ]);
   }
 }
