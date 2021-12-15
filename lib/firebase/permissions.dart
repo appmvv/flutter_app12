@@ -67,7 +67,7 @@ class _Permissions extends State<Permissions> {
       return const CircularProgressIndicator();
     }
 
-    if (!_requested &&
+    if (!_requested && _settings != null &&
         _settings.authorizationStatus == AuthorizationStatus.notDetermined) {
       return ElevatedButton(
           onPressed: requestPermissions,
@@ -87,7 +87,7 @@ class _Permissions extends State<Permissions> {
       //   row('Show Previews', previewMap[_settings.showPreviews]),
       //   row('Sound', settingsMap[_settings.sound]),
       // ],
-
+    _settings == null ? Text('No permission info') :
       _settings.authorizationStatus == AuthorizationStatus.authorized
           ? Text('User granted permission')
           : (_settings.authorizationStatus == AuthorizationStatus.denied
