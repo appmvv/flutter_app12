@@ -65,7 +65,8 @@ class _Permissions extends State<Permissions> {
       //       child: const Text('Request Permissions'));
       // }
 
-      return Column(children: [
+      return Text('Push notification status: '+statusMap[_settings.authorizationStatus]);
+/*        Column(children: [
         row('Push notification status', statusMap[_settings.authorizationStatus]),
         // if (defaultTargetPlatform == TargetPlatform.iOS) ...[
         //   row('Alert', settingsMap[_settings.alert]),
@@ -79,7 +80,7 @@ class _Permissions extends State<Permissions> {
         // ],
         // ElevatedButton(
         //     onPressed: () => {}, child: const Text('Reload Permissions')),
-      ]);
+      ]);*/
 
   }
 }

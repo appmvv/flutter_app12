@@ -132,7 +132,12 @@ class SettingsPageState extends State<SettingsPage> {
                                   _getmessages &&
                                           defaultTargetPlatform ==
                                               TargetPlatform.iOS
-                                      ? MetaCard('Permissions', Permissions())
+//                                      ? MetaCard('Permissions', Permissions())
+                                      ? Padding(
+                                          // getmessged
+                                          padding: EdgeInsets.only(left: 40),
+                                          child: Permissions(),
+                                        )
                                       : SizedBox(
                                           height: 10,
                                         ),
