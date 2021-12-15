@@ -49,31 +49,38 @@ class _Permissions extends State<Permissions> {
 
   @override
   Widget build(BuildContext context) {
-    if (_fetching) {
+
+    if (!_requested) {
+      requestPermissions();
       return const CircularProgressIndicator();
     }
 
-    if (!_requested) {
-      return ElevatedButton(
-          onPressed: requestPermissions,
-          child: const Text('Request Permissions'));
-    }
+      if (_fetching) {
+        return const CircularProgressIndicator();
+      }
 
-    return Column(children: [
-      row('Authorization Status', statusMap[_settings.authorizationStatus]),
-      if (defaultTargetPlatform == TargetPlatform.iOS) ...[
-        row('Alert', settingsMap[_settings.alert]),
-        row('Announcement', settingsMap[_settings.announcement]),
-        row('Badge', settingsMap[_settings.badge]),
-        row('Car Play', settingsMap[_settings.carPlay]),
-        row('Lock Screen', settingsMap[_settings.lockScreen]),
-        row('Notification Center', settingsMap[_settings.notificationCenter]),
-        row('Show Previews', previewMap[_settings.showPreviews]),
-        row('Sound', settingsMap[_settings.sound]),
-      ],
-      ElevatedButton(
-          onPressed: () => {}, child: const Text('Reload Permissions')),
-    ]);
+      // if (!_requested) {
+      //   return ElevatedButton(
+      //       onPressed: requestPermissions,
+      //       child: const Text('Request Permissions'));
+      // }
+
+      return Column(children: [
+        row('Push notification status', statusMap[_settings.authorizationStatus]),
+        // if (defaultTargetPlatform == TargetPlatform.iOS) ...[
+        //   row('Alert', settingsMap[_settings.alert]),
+        //   row('Announcement', settingsMap[_settings.announcement]),
+        //   row('Badge', settingsMap[_settings.badge]),
+        //   row('Car Play', settingsMap[_settings.carPlay]),
+        //   row('Lock Screen', settingsMap[_settings.lockScreen]),
+        //   row('Notification Center', settingsMap[_settings.notificationCenter]),
+        //   row('Show Previews', previewMap[_settings.showPreviews]),
+        //   row('Sound', settingsMap[_settings.sound]),
+        // ],
+        // ElevatedButton(
+        //     onPressed: () => {}, child: const Text('Reload Permissions')),
+      ]);
+
   }
 }
 
