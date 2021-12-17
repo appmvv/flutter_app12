@@ -1,8 +1,9 @@
 // @dart=2.9
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Requests & displays the current user permissions for this device.
 class Permissions extends StatefulWidget {
@@ -21,7 +22,7 @@ class _Permissions extends State<Permissions> {
     });
 
     NotificationSettings settings =
-    await FirebaseMessaging.instance.requestPermission(
+        await FirebaseMessaging.instance.requestPermission(
       announcement: true,
       carPlay: true,
       criticalAlert: true,
@@ -55,32 +56,36 @@ class _Permissions extends State<Permissions> {
       return const CircularProgressIndicator();
     }
 
-      if (_fetching) {
-        return const CircularProgressIndicator();
-      }
+    if (_fetching) {
+      return const CircularProgressIndicator();
+    }
 
-      // if (!_requested) {
-      //   return ElevatedButton(
-      //       onPressed: requestPermissions,
-      //       child: const Text('Request Permissions'));
-      // }
+    if (_settings.authorizationStatus ==  AuthorizationStatus.authorized)
+      return SizedBox(height: 10,);
 
-      return Text('Push notification status: '+statusMap[_settings.authorizationStatus]);
-/*        Column(children: [
-        row('Push notification status', statusMap[_settings.authorizationStatus]),
-        // if (defaultTargetPlatform == TargetPlatform.iOS) ...[
-        //   row('Alert', settingsMap[_settings.alert]),
-        //   row('Announcement', settingsMap[_settings.announcement]),
-        //   row('Badge', settingsMap[_settings.badge]),
-        //   row('Car Play', settingsMap[_settings.carPlay]),
-        //   row('Lock Screen', settingsMap[_settings.lockScreen]),
-        //   row('Notification Center', settingsMap[_settings.notificationCenter]),
-        //   row('Show Previews', previewMap[_settings.showPreviews]),
-        //   row('Sound', settingsMap[_settings.sound]),
-        // ],
-        // ElevatedButton(
-        //     onPressed: () => {}, child: const Text('Reload Permissions')),
-      ]);*/
+    String _text="";
+
+    if (_settings.authorizationStatus ==  AuthorizationStatus.denied)
+      _text = AppLocalizations.of(context).pushnotifications + AppLocalizations.of(context).denied;
+
+    if (_settings.authorizationStatus ==  AuthorizationStatus.notDetermined)
+      _text = AppLocalizations.of(context).pushnotifications + AppLocalizations.of(context).notDetermined;
+
+    if (_settings.authorizationStatus ==  AuthorizationStatus.provisional)
+      _text = AppLocalizations.of(context).pushnotifications + AppLocalizations.of(context).provisional;
+
+    return
+      Padding(
+        padding: EdgeInsets.only(
+            left: 40, bottom: 10),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text( _text),
+        ),
+      );
+
+ //   return Text('Push notification status: ' +
+ //       statusMap[_settings.authorizationStatus]);
 
   }
 }

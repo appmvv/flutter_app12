@@ -50,8 +50,6 @@ class SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    //  _context = context;
-
     return WillPopScope(
         onWillPop: () async {
           _streamController.close();
@@ -61,7 +59,6 @@ class SettingsPageState extends State<SettingsPage> {
           return false;
         },
         child: Scaffold(
-          //           key: _scaffoldKey,
           appBar: AppBar(title: Text(AppLocalizations.of(context).settings)),
           body: SingleChildScrollView(
             reverse: true,
@@ -106,9 +103,6 @@ class SettingsPageState extends State<SettingsPage> {
                                       ],
                                     ),
                                   ),
-                                  // SizedBox(
-                                  //   height: 10,
-                                  // ),
                                   Padding(
                                     // getmessged
                                     padding: EdgeInsets.only(left: 40),
@@ -132,21 +126,10 @@ class SettingsPageState extends State<SettingsPage> {
                                   _getmessages &&
                                           defaultTargetPlatform ==
                                               TargetPlatform.iOS
-//                                      ? MetaCard('Permissions', Permissions())
-                                      ? Padding(
-                                          // getmessged
-                                          padding: EdgeInsets.only(left: 40),
-                                          child: Permissions(),
-                                        )
+                                      ? Permissions()
                                       : SizedBox(
                                           height: 10,
                                         ),
-//                                    _getmessages ? MetaCard('Permissions', Permissions()) : SizedBox(height: 10,),
-
-                                  // SizedBox(
-                                  //   height: 10,
-                                  // ),
-
                                   TextFormField(
                                     // URL
                                     autovalidateMode: AutovalidateMode.always,
@@ -231,11 +214,9 @@ class SettingsPageState extends State<SettingsPage> {
                                       }
                                     },
                                   ),
-
                                   SizedBox(
                                     height: 20,
                                   ),
-
                                   ElevatedButton(
                                     // Save
                                     onPressed: () {
@@ -316,36 +297,5 @@ class SettingsPageState extends State<SettingsPage> {
     } else {
       Navigator.pop(context);
     }
-  }
-}
-
-/// UI Widget for displaying metadata.
-class MetaCard extends StatelessWidget {
-  final String _title;
-  final Widget _children;
-
-  // ignore: public_member_api_docs
-  MetaCard(this._title, this._children);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(left: 8, right: 8, top: 8),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Text(_title, style: const TextStyle(fontSize: 18)),
-              ),
-              _children,
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

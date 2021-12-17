@@ -11,7 +11,13 @@
   "errorSettings": "Fill in the settings",
 
   "notsolvedonly": "Show not solved tickets only",
+
   "getmessages": "Get messages",
+  "pushnotifications": "Push notifications are ",
+  "authorized": "authorized.",
+  "denied": "denied. Enable notification permissions from the device Settings UI.",
+  "notDetermined": "not determined. Enable notification permissions from the device Settings UI.",
+  "provisional": "provisional. Notifications are visible within the device notification center.",
 
   "save": "Save",
   "saved": "Saved",
