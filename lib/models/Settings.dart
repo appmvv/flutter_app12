@@ -16,13 +16,16 @@ class Settings {
   static final String tokenAndroidPrefix = "FBT:";
   static final String tokenIosPrefix = "FTIOS:";
   static final String tokenPrefix = io.Platform.isIOS ? tokenIosPrefix : tokenAndroidPrefix;
+  static final String dateModifiedField ="date_mod";
+  static final String idField ="id";
 
   static final String glpiDateFormat = "yyyy-MM-dd HH:mm:ss";
   static final String appDateFormat = "dd.MM.yy HH:mm";
 
   ///// Current
   static bool notSolvedOnly = true;
-  static bool getMessages = true;
+  static bool sortByUpdate = true;
+  static bool getMessages = false;
   static String tokenFCM="";
   static int userID=0;
   static String userName="";
@@ -185,6 +188,9 @@ class Settings {
     return DateFormat(appDateFormat).format(d);
 //    return DateFormat(appDateFormat, Localizations.localeOf(current_context).toString()).format(d);
   }
+
+  // error color
+  static final ErrorColor=Colors.red;
 
   // list item decoration (tickets & followups)
   static BoxDecoration itemDecoration = BoxDecoration(

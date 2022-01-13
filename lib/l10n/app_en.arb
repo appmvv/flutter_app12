@@ -9,8 +9,10 @@
   "enterPassword": "Enter password",
 
   "errorSettings": "Fill in the settings",
+  "notToSave": "Press back again to return without saving changes",
 
   "notsolvedonly": "Show not solved tickets only",
+  "sortbyupdate": "Sort tickets by date of modification",
 
   "getmessages": "Get messages",
   "pushnotifications": "Push notifications are ",
@@ -21,6 +23,7 @@
 
   "save": "Save",
   "saved": "Saved",
+  "close": "Close",
 
   "errorSessionToken": "Connection to server error",
 
@@ -29,7 +32,7 @@
   "ticket": "Ticket",
   "newticket": "New ticket",
   "tikets": "Tickets",
-  "errorTicketList": "Ticket list is empty. Check settings and access to the internet.",
+  "errorTicketList": "Error getting tickets. Check your settings and access to the internet.",
   "errorTicket": "Ticket is not found. Check your network settings",
   "ticketName": "Title",
   "ticketContent": "Description",
@@ -72,13 +75,13 @@
 
   "followups": "Followups",
   "newfollowup": "New followup to ticket",
-  "errorFollowup": "Followup item is not found",
+  "errorFollowup": "Error getting followups",
   "followup_message": "Enter followup",
   "followup_added": "Followup added",
   "followup_adding_error": "Followup is not added",
 
   "solutions": "Solution",
-  "errorSolution": "Solution item is not found",
+  "errorSolution": "Error getting solution",
   "solution_added": "Solution added",
   "solution_adding_error": "Solution is not added",
   "solutionContent": "Content",

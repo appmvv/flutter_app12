@@ -2,11 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Settings.dart';
 import 'package:flutter_app/models/Ticket.dart';
-
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-//import 'package:provider/provider.dart';
-
-
 
 class TicketItem extends StatelessWidget {
 
@@ -16,9 +12,6 @@ class TicketItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-//    Widget page=context.read<TicketList>();
-//    Settings.current_context=context;
 
     return (_ticket == null
         ? new Text(AppLocalizations.of(context).errorTicket)
@@ -44,22 +37,11 @@ class TicketItem extends StatelessWidget {
                             new Text(_ticket.id.toString()),
                             Align(
                                 alignment: Alignment.centerRight,
-                                // child: new GestureDetector(
-                                //     onTap: () {
-                                //       ScaffoldMessenger.of(context).showSnackBar(
-                                //         //         Scaffold.of(context).showSnackBar(
-                                //           SnackBar(
-                                //             content: Text("TAPPED !!"),
-                                //             backgroundColor: Colors.red,
-                                //             widget.paren
-                                //           ));
-                                //     },
-                                    child: Container (
+                                      child: Container (
                                   color: _ticket.getColor(),
                                   width: 10,
                                   height: 10,
                                 ))
-
                           ],
 
                         ),

@@ -1,18 +1,25 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/SettingsPage.dart';
-import 'package:flutter_app/pages/TicketListPage.dart';
+import 'package:flutter_app/providers/SolutionsProvider.dart';
+import 'package:flutter_app/providers/TicketProvider.dart';
+
+import 'package:flutter_app/widgets/SettingsPage_new.dart';
+import 'package:flutter_app/widgets/Tickets/TicketListPage.dart';
+import 'package:flutter_app/providers/TicketsProvider.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:provider/provider.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 import 'models/Settings.dart';
+
+import 'package:flutter_app/providers/FollowupsProvider.dart';
 
 ///////////// firebase start
 
@@ -42,11 +49,9 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 ////////////// firebase end
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-
 
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -67,26 +72,27 @@ Future<void> main() async {
     badge: true,
     sound: true,
   );
-  //
+
+
+
+  // initial settingd
   SharedPreferences preferences = await SharedPreferences.getInstance();
   Settings.tokenFCM = preferences.getString("FCMtoken") ?? "";
   Settings.userName = preferences.getString("user") ?? "";
   Settings.glpiUrl = preferences.getString("url") ?? Settings.initUrl;
-  Settings.getMessages=preferences.getBool("getmessages") ?? false;
-  Settings.notSolvedOnly=preferences.getBool("notsolvedonly") ?? true;
-  Settings.credentials=preferences.getString("credentials") ?? "";
+  Settings.getMessages = preferences.getBool("getmessages") ?? false;
+  Settings.notSolvedOnly = preferences.getBool("notsolvedonly") ?? true;
+  Settings.sortByUpdate = preferences.getBool("sortbyupdate") ?? true;
+  Settings.credentials = preferences.getString("credentials") ?? "";
 
   //////////// token & users
 
   Stream<String> _tokenStream;
 
   void setToken(String token) async {
-
     preferences.setString("FCMtoken", token);
-    Settings.tokenFCM=token;
-
+    Settings.tokenFCM = token;
   }
-
 
   FirebaseMessaging.instance.getToken().then(setToken);
   _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
@@ -97,24 +103,35 @@ Future<void> main() async {
 }
 
 class GlpiApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', ''),
-        const Locale('ru', ''),
-      ],
-      home:  Settings.glpiUrl==Settings.initUrl ? SettingsPage() : TicketListPage(),
-    );
+
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<TicketsProvider>(
+              create: (context) => TicketsProvider()),
+          ChangeNotifierProvider<TicketProvider>(
+              create: (context) => TicketProvider()),
+          ChangeNotifierProvider<SolutionsProvider>(
+              create: (context) => SolutionsProvider()),
+          ChangeNotifierProvider<FollowupsProvider>(
+              create: (context) => FollowupsProvider()),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en', ''),
+            const Locale('ru', ''),
+          ],
+          home: Settings.glpiUrl == Settings.initUrl
+              ? SettingsPage_new()
+              : TicketListPage(),
+        ));
   }
-
 }
-

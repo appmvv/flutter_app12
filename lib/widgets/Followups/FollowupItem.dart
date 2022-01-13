@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Followup.dart';
 import 'package:flutter_app/models/Settings.dart';
@@ -71,7 +70,6 @@ class FollowupItem extends StatelessWidget {
 
                             child: SingleChildScrollView(
                                 child: Html(
-                                    //                        padding: EdgeInsets.all(12.0),
                                     data: HtmlUnescape()
                                         .convert(_followup.content))),
                           ),

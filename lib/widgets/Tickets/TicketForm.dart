@@ -12,7 +12,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:html_unescape/html_unescape.dart';
 //import 'package:html_unescape/html_unescape.dart';
 
-import 'ReadFieldWidget.dart';
+import '../ReadFieldWidget.dart';
 
 //import 'package:flutter_html/flutter_html.dart';
 //import 'package:webview_flutter/webview_flutter.dart';
@@ -35,13 +35,6 @@ class TicketForm extends StatefulWidget {
 class TicketFormState extends State<TicketForm> {
   Ticket _ticket;
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Enable hybrid composition.
-// //    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-//   }
-
   @override
   Widget build(BuildContext context) {
     Settings.current_context = context;
@@ -59,29 +52,8 @@ class TicketFormState extends State<TicketForm> {
                     : _ticket.recipient),
                 new Text(_ticket.getEntity()),
 
-/*                  new Column (
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        new Text(_ticket.recipient),
-                        new Text(_ticket.entity)
-                      ]
-                  ),*/
-
-/*                new TextFormField(
-                  initialValue: _ticket.name,
-                  enabled: false,
-                  decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context).ticketName,
-//                     errorText: 'Error message',
-                    border: OutlineInputBorder(),
-                  ),
-                ),*/
-
                 ReadfieldWidget(
                     AppLocalizations.of(context).ticketName, _ticket.name),
-
-                //               ReadfieldWidget(AppLocalizations.of(context).ticketContent,  _ticket.content),
 
                 new Padding(
                   padding: EdgeInsets.only(top: 5, left: 10),
@@ -112,6 +84,7 @@ class TicketFormState extends State<TicketForm> {
                         ),
                   ),
                   child: SingleChildScrollView(
+                    //TODO uncaught exception when picture image url (ticket 321)
                       child: Html(
                           //  padding: EdgeInsets.all(12.0),
                           data: HtmlUnescape().convert(_ticket.content))),

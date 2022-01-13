@@ -1,39 +1,32 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/api/GlpiApi.dart';
 import 'package:flutter_app/models/Settings.dart';
-import 'package:flutter_app/models/Solution.dart';
-
+import 'package:flutter_app/providers/SolutionsProvider.dart';
+import 'package:flutter_app/providers/TicketProvider.dart';
+import 'package:flutter_app/providers/TicketsProvider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class SolutionForm extends StatefulWidget {
 
-  final int _ticketid;
+  final int _ticketId;
 
-  SolutionForm(this._ticketid);
+  SolutionForm(this._ticketId);
 
   @override
   createState() => new SolutionFormState();
 }
 
 class SolutionFormState extends State<SolutionForm> {
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  GlpiApi api = GlpiApi();
 
   String _content;
   String _solutiontype;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     //   Settings.current_context = context;
-    return (widget._ticketid == 0
-        ? new Text(AppLocalizations.of(context).errorSolution)
-        : new SingleChildScrollView ( child: new Form(
+    return SingleChildScrollView ( child: new Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -88,6 +81,7 @@ class SolutionFormState extends State<SolutionForm> {
                         // Validate will return true if the form is valid, or false if
                         // the form is invalid.
                         if (_formKey.currentState.validate()) {
+
                           _addSolution();
                           // Process data.
                         }
@@ -95,32 +89,30 @@ class SolutionFormState extends State<SolutionForm> {
                       child: Text(AppLocalizations.of(context).save),
                     ))
               ],
-            ))) );
+            ))) ;
   }
 
   Future<void> _addSolution() async {
 
-    Solution _solution = new Solution();
-    _solution.content = _content;
-    _solution.items_id = widget._ticketid;
-    _solution.solutiontypes_id=Settings.SolutionTypesByName[_solutiontype]==null ? 0 : Settings.SolutionTypesByName[_solutiontype].id;
-
-    api.addSolution(_solution).then((string) {
-
-       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(string == ""
-                  ? AppLocalizations.of(context).solution_added
-                  : AppLocalizations.of(context).solution_adding_error +
-                      " " +
-                      string),
-              backgroundColor: string == "" ? Colors.green : Colors.red));
-
-       if (string == "") {
-         FocusScope.of(context).unfocus();
-         Navigator.pop(context,true);
-       }
-
+    Provider.of<SolutionsProvider>(context, listen: false).addSolution(widget._ticketId, _content, _solutiontype)
+        .then((string) {
+      if (string == "") {
+        Provider.of<SolutionsProvider>(context, listen: false).getSolutions(widget._ticketId);
+        Provider.of<TicketProvider>(context, listen: false).getTicket(widget._ticketId);
+        if (Settings.notSolvedOnly) Provider.of<TicketsProvider>(context, listen: false).getTickets();
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text( AppLocalizations
+                .of(context)
+                .solution_adding_error +
+                " " +
+                string),
+            backgroundColor: Colors.red));
+      }
     });
   }
+
+
 }
+
