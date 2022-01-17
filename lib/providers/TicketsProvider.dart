@@ -6,7 +6,7 @@ class TicketsProvider with ChangeNotifier {
 
   GlpiApi api = GlpiApi();
 
-  List<Ticket> _tickets = [];
+  List<Ticket> _tickets;
   List<Ticket> get tickets => _tickets;
 
   String _getTicketsError="";
@@ -31,14 +31,14 @@ class TicketsProvider with ChangeNotifier {
         if (list is List) {
           _tickets = list;
         } else {
-          _tickets=[];
+          _tickets=null;
           _getTicketsError =list.toString();
         }
         notifyListeners();
       });
     } catch (e) {
       _getTicketsError =e.toString();
-      _tickets=[];
+      _tickets=null;
       notifyListeners();
     }
 

@@ -42,7 +42,7 @@ class TicketList_new extends StatelessWidget {
                         child: Text(AppLocalizations.of(context).close)),
                   ],
                 )
-              : (tickets == null || tickets.length == 0
+              : (tickets == null // || tickets.length == 0
                   ? Center(child: CircularProgressIndicator())
                   : DraggableScrollbar.rrect(
                       alwaysVisibleScrollThumb: true,
