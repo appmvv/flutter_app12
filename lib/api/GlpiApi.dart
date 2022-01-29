@@ -13,7 +13,6 @@ import 'package:http_logger_library/log_level.dart';
 import 'package:http_logger_library/logging_middleware.dart';
 import 'package:http_middleware_library/http_with_middleware.dart';
 
-
 class GlpiApi {
   static String GLPI_URL;
 
@@ -26,20 +25,19 @@ class GlpiApi {
     HttpLogger(logLevel: LogLevel.BODY),
   ]);
 
-
   // вызывается из всех  запросов, если GLPI_SESSION.isEmpty
   // GlpiApi.GLPI_SESSION = "" при выходе из SettingsPage с сохранением настроек
   //          поэтому последующий запрос getTickets() вызывает requestSession
   // после получении новой сессии вызывается getSolutionTypes()
   //          и getUsers() (из которого вызывается sendToken, после определения id текущего пользователя)
   Future<String> requestSession() async {
-
     GLPI_URL = Settings.glpiUrl;
     String _credentials = Settings.credentials;
 
     if (GLPI_URL.isEmpty ||
         GLPI_URL == Settings.initUrl ||
-        _credentials.isEmpty) return "Check your server url and credentials"; // на английском тк нет context
+        _credentials.isEmpty)
+      return "Check your server url and credentials"; // на английском тк нет context
 
     GLPI_SESSION = "";
 
@@ -61,20 +59,23 @@ class GlpiApi {
         getSolutionTypes();
 
         return "";
-
       } else {
         return "Failed to get session: " + response.body.toString();
       }
     } catch (error) {
       return "Failed to get session: " + error.toString();
-
     }
-
   }
 
   // вызывается из SettingPage при сохранении настроек
   Future<String> killSession() async {
     if (GLPI_SESSION.isNotEmpty) {
+      String _return = "";
+
+      sendToken(
+          token:
+              ""); // сбрасываем токен текущего пользователя (= Settings.userId )
+
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json", // or whatever
         'Session-Token': GLPI_SESSION,
@@ -87,11 +88,14 @@ class GlpiApi {
         );
 
         if (response.statusCode != 200) {
-          return "Failed to kill session: " + response.statusCode.toString();
+          _return = "Failed to kill session: " + response.statusCode.toString();
         }
       } catch (error) {
-        return 'Failed to kill session: ' + error.toString();
+        _return = 'Failed to kill session: ' + error.toString();
       }
+
+      GLPI_SESSION = "";
+      return _return;
     }
 
     return "";
@@ -107,7 +111,9 @@ class GlpiApi {
     if (GLPI_SESSION.isNotEmpty) {
       var queryParams = {
         'order': 'DESC',
-        'sort': (Settings.sortByUpdate ? Settings.dateModifiedField : Settings.idField),
+        'sort': (Settings.sortByUpdate
+            ? Settings.dateModifiedField
+            : Settings.idField),
         'expand_dropdowns': 'true',
         'range': '0-100',
         "searchText[priority]": "0",
@@ -237,14 +243,12 @@ class GlpiApi {
 
   Future<String> addFollowup(
       int ticketid, String content, bool is_private) async {
-
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
     }
 
     if (GLPI_SESSION.isNotEmpty) {
-
       Followup _followup = new Followup();
       _followup.is_private = is_private ? 1 : 0;
       _followup.content = content;
@@ -268,13 +272,10 @@ class GlpiApi {
         );
 
         if (response.statusCode == 201 || response.statusCode == 207) {
-
           return ""; //data.values.first.toString();
 
         } else {
-
           return response.body.toString();
-
         }
       } catch (error) {
         return error.toString();
@@ -285,7 +286,6 @@ class GlpiApi {
   }
 
   Future<Object> getSolutions(int ticketid) async {
-
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
@@ -318,35 +318,37 @@ class GlpiApi {
 
           return answer;
         } else {
-
-          return 'Failed to get solutions for Ticket $ticketid ' + response.body.toString();
+          return 'Failed to get solutions for Ticket $ticketid ' +
+              response.body.toString();
         }
       } catch (error) {
-        return 'Failed to get solutions for Ticket $ticketid ' + error.toString();
+        return 'Failed to get solutions for Ticket $ticketid ' +
+            error.toString();
       }
     }
 
     return _sessionError;
   }
 
-  Future<String> addSolution(int _ticketid, String _content, String _solutiontype) async {
-
+  Future<String> addSolution(
+      int _ticketid, String _content, String _solutiontype) async {
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
     }
 
     if (GLPI_SESSION.isNotEmpty) {
-
       Solution _solution = new Solution();
       _solution.content = _content;
       _solution.items_id = _ticketid;
-      _solution.solutiontypes_id=Settings.SolutionTypesByName[_solutiontype]==null ? 0 : Settings.SolutionTypesByName[_solutiontype].id;
+      _solution.solutiontypes_id =
+          Settings.SolutionTypesByName[_solutiontype] == null
+              ? 0
+              : Settings.SolutionTypesByName[_solutiontype].id;
 
       Map<String, Object> _input = {'input': _solution};
 
-      var body =
-      jsonEncode(_input);
+      var body = jsonEncode(_input);
 
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -377,7 +379,6 @@ class GlpiApi {
   // вызывается из requestSession
   // вызывает sendToken, после получения users определения id текущего gользователя
   Future<String> getUsers() async {
-
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
@@ -412,7 +413,6 @@ class GlpiApi {
           sendToken();
 
           return "";
-
         } else {
           return "Failed to get User " + response.body.toString();
         }
@@ -425,7 +425,6 @@ class GlpiApi {
   }
 
   Future<String> getSolutionTypes() async {
-
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
@@ -453,7 +452,6 @@ class GlpiApi {
           Settings.setSolutionTypes(solutiontypes);
 
           return "OK";
-
         } else {
           return 'Failed to get SolutionTypes ' + response.body.toString();
         }
@@ -521,35 +519,36 @@ class GlpiApi {
   //            при получении токена из FCM
   //                  записывается в preferencies и в Settings.tokenFCM
   //      в SettingsPage
-  //            ? при входе записывается из preferencies в Settings.tokenFCM
+  //            убрано ? при входе записывается из preferencies в Settings.tokenFCM
   //
   // sendToken вызывается
-  //    нет из main каждый раз при получении токена из FCM
-  //    нет из SettingPage при сохранении установок
-  //    только из getUsers каждый раз после получения users и определения Id текущего пользователя (чтобы не дублировать и не ждать  обновления users)
-  //
+  //    ? нет из main каждый раз при получении токена из FCM
+  //    из getUsers осле получения users и определения Id текущего пользователя (чтобы не дублировать и не ждать  обновления users)
+  //    из SettingsPage -> killSession, чтобы очистить token в бд
   // SendToken пишет токен в бд
   //        если Settings.tokenFCM отличается от того который есть в поле mobile_notification текущего пользователя
   //        если Settings.getMessage == false то в бд пишет пустой FCM
 
-  Future<String> sendToken() async {
+  Future<String> sendToken({String token}) async {
 
-    String token = Settings.getMessages ? Settings.tokenFCM : "";
+    if (Settings.userID > 0) {
+      String _token = token != null
+          ? token
+          : (Settings.getMessages ? Settings.tokenFCM : "");
 
-    // если token отличается от того что на сервере - то пишем на сервер
-    if (Settings.users[Settings.userName] != null &&
-        Settings.tokenPrefix + token !=
-            Settings.users[Settings.userName].mobile_notification) {
+      // если token отличается от того что на сервере - то пишем на сервер
+      // if (Settings.users[Settings.userName] != null &&
+      //     Settings.tokenPrefix + _token !=
+      //         Settings.users[Settings.userName].mobile_notification) {
+
       Map<String, String> input = new Map<String, String>();
+
       input["mobile_notification"] =
-          token.isEmpty ? token : Settings.tokenPrefix + token;
+          _token.isEmpty ? _token : Settings.tokenPrefix + _token;
 
       Map<String, Object> _input = {'input': input};
 
-      int userid = Settings.userID;
-
-      var body =
-          jsonEncode(_input);
+      var body = jsonEncode(_input);
 
       if (GLPI_SESSION.isEmpty) {
         String _answer = await requestSession();
@@ -564,7 +563,7 @@ class GlpiApi {
 
         try {
           var response = await _httpClient.put(
-            GLPI_URL + "User/$userid",
+            GLPI_URL + "User/${Settings.userID}",
             headers: headers,
             body: body,
           );
@@ -576,10 +575,8 @@ class GlpiApi {
           return error.toString();
         }
       }
-
     }
 
     return _sessionError;
   }
-
 }

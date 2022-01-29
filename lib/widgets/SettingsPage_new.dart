@@ -316,11 +316,12 @@ class SettingsPageState_new extends State<SettingsPage_new> {
     _sortbyupdate = preferences.getBool("sortbyupdate") ?? _sortbyupdate;
     _getmessages = preferences.getBool("getmessages") ?? _getmessages;
 
-    Settings.tokenFCM = preferences.getString("FCMtoken") ?? "";
+//    Settings.tokenFCM = preferences.getString("FCMtoken") ?? "";
 
     _streamController.sink.add(true);
 
   }
+
 
   _putdata(BuildContext context) async {
 
@@ -334,6 +335,9 @@ class SettingsPageState_new extends State<SettingsPage_new> {
     String _credentials = utf8.fuse(base64).encode('$_user:$_password');
     preferences.setString("credentials", _credentials);
 
+    /*
+    Settings.userId не трогаем, чтобы сборсить fcm токен из killSession
+    */
     Settings.notSolvedOnly = _notsolved;
     Settings.sortByUpdate = _sortbyupdate;
     Settings.getMessages = _getmessages;
@@ -341,9 +345,12 @@ class SettingsPageState_new extends State<SettingsPage_new> {
     Settings.glpiUrl = _url;
     Settings.credentials = _credentials;
 
-    await api.killSession();
+    if (GlpiApi.GLPI_SESSION.isNotEmpty) {
 
-    GlpiApi.GLPI_SESSION = "";
+      await api.killSession();
+    }
+
+//    GlpiApi.GLPI_SESSION = ""; // перенесено в killSession
 //    api.requestSession();
 
     _changed = false;
@@ -360,6 +367,8 @@ class SettingsPageState_new extends State<SettingsPage_new> {
     } else {
       Navigator.pop(context);
     }
+
+
   }
 
 }

@@ -92,6 +92,7 @@ Future<void> main() async {
   void setToken(String token) async {
     preferences.setString("FCMtoken", token);
     Settings.tokenFCM = token;
+    //TODO  ? надо вызывать sendToken ?
   }
 
   FirebaseMessaging.instance.getToken().then(setToken);
