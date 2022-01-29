@@ -27,8 +27,11 @@ class GlpiApi {
   ]);
 
 
-  // вызывается из всех  запроса, если GLPI_SESSION.isEmpty
-  // GLPI_SESSION = "" при выходе из SettingsPage с сохранением настроек
+  // вызывается из всех  запросов, если GLPI_SESSION.isEmpty
+  // GlpiApi.GLPI_SESSION = "" при выходе из SettingsPage с сохранением настроек
+  //          поэтому последующий запрос getTickets() вызывает requestSession
+  // после получении новой сессии вызывается getSolutionTypes()
+  //          и getUsers() (из которого вызывается sendToken, после определения id текущего пользователя)
   Future<String> requestSession() async {
 
     GLPI_URL = Settings.glpiUrl;
@@ -57,21 +60,16 @@ class GlpiApi {
         getUsers();
         getSolutionTypes();
 
-        return ""; //SessionToken.fromJson(jsonDecode(response.body)).toString();
+        return "";
 
       } else {
-//        print("Failed to get session: " + response.statusCode.toString());
         return "Failed to get session: " + response.body.toString();
       }
     } catch (error) {
- //     print("Failed to get session: " + error.toString());
       return "Failed to get session: " + error.toString();
 
-      //         _showMessage(AppLocalizations.of(_context).errorSessionToken+": "+error.toString();
-      //     _showToast("Session token failed 2: " + error.toString());
     }
 
-//    return "";
   }
 
   // вызывается из SettingPage при сохранении настроек
@@ -89,19 +87,17 @@ class GlpiApi {
         );
 
         if (response.statusCode != 200) {
-          print("Failed to kill session: " + response.statusCode.toString());
           return "Failed to kill session: " + response.statusCode.toString();
         }
       } catch (error) {
-        print('Failed to kill session: ' + error.toString());
         return 'Failed to kill session: ' + error.toString();
-//      _showToast("Get tickets failed 2: " + error.toString());
       }
     }
 
     return "";
   }
 
+  // вызывается через TicketsProvider из main, при обновлении списка и из SettingsPage при сохранении
   Future<Object> getTickets() async {
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
@@ -144,19 +140,13 @@ class GlpiApi {
             return Ticket.fromJson(rawTicket);
           }).toList();
         } else {
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
- //         print('Failed to get tickets ' + response.statusCode.toString());
           return 'Failed to get tickets ' + response.body.toString();
         }
       } catch (error) {
-//        print('Failed to get tickets ' + error.toString());
         return 'Failed to get tickets ' + error.toString();
-//      _showToast("Get tickets failed 2: " + error.toString());
       }
     }
 
-//    return List<Ticket>.empty();
     return _sessionError;
   }
 
@@ -189,13 +179,9 @@ class GlpiApi {
 
           return ticket;
         } else {
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
-//          print('Failed to get ticket $id ' + response.statusCode.toString());
           return 'Failed to get ticket $id ' + response.body.toString();
         }
       } catch (error) {
-//        print('Failed to get ticket $id ' + error.toString());
         return 'Failed to get ticket $id ' + error.toString();
       }
     }
@@ -238,22 +224,14 @@ class GlpiApi {
 
           return answer;
         } else {
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
-          print('Failed to get followups for Ticket $ticketid ' +
-              response.statusCode.toString());
           return 'Failed to get followups for Ticket $ticketid ' +
               response.body.toString();
         }
       } catch (error) {
-        print(
-            'Failed to get followups for Ticket $ticketid ' + error.toString());
         return 'Failed to get followups for Ticket $ticketid ' +
             error.toString();
       }
     }
-
-//    return List<Followup>.empty();
     return _sessionError;
   }
 
@@ -290,19 +268,16 @@ class GlpiApi {
         );
 
         if (response.statusCode == 201 || response.statusCode == 207) {
-//          final data = json.decode(response.body) as Map;
 
           return ""; //data.values.first.toString();
 
         } else {
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
+
           return response.body.toString();
-          //         throw Exception('response.statusCode=' + response.statusCode.toString());
+
         }
       } catch (error) {
         return error.toString();
-//      _showToast("Get tickets failed 2: " + error.toString());
       }
     }
 
@@ -319,7 +294,6 @@ class GlpiApi {
     if (GLPI_SESSION.isNotEmpty) {
       var queryParams = {
         'order': 'DESC',
-//        'expand_dropdowns': 'true',
       };
 
       String queryString = Uri(queryParameters: queryParams).query;
@@ -344,17 +318,11 @@ class GlpiApi {
 
           return answer;
         } else {
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
-
-//          print('Failed to get solutions for Ticket $ticketid ' +              response.statusCode.toString());
 
           return 'Failed to get solutions for Ticket $ticketid ' + response.body.toString();
         }
       } catch (error) {
-//        print(            'Failed to get solutions for Ticket $ticketid ' + error.toString());
         return 'Failed to get solutions for Ticket $ticketid ' + error.toString();
-//      _showToast("Get tickets failed 2: " + error.toString());
       }
     }
 
@@ -378,10 +346,10 @@ class GlpiApi {
       Map<String, Object> _input = {'input': _solution};
 
       var body =
-      jsonEncode(_input); //   _followup.toJson(); json.encode(_followup),
+      jsonEncode(_input);
 
       Map<String, String> headers = {
-        HttpHeaders.contentTypeHeader: "application/json", // or whatever
+        HttpHeaders.contentTypeHeader: "application/json",
         'Session-Token': GLPI_SESSION,
       };
 
@@ -393,25 +361,21 @@ class GlpiApi {
         );
 
         if (response.statusCode == 201 || response.statusCode == 207) {
-//          final data = json.decode(response.body) as Map;
-
           return ""; //data.values.first.toString();
 
         } else {
           return response.body.toString();
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
-          //         throw Exception('response.statusCode=' + response.statusCode.toString());
         }
       } catch (error) {
         return error.toString();
-//      _showToast("Get tickets failed 2: " + error.toString());
       }
     }
 
     return _sessionError;
   }
 
+  // вызывается из requestSession
+  // вызывает sendToken, после получения users определения id текущего gользователя
   Future<String> getUsers() async {
 
     if (GLPI_SESSION.isEmpty) {
@@ -450,13 +414,9 @@ class GlpiApi {
           return "";
 
         } else {
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
-          print("Failed to get User " + response.statusCode.toString());
           return "Failed to get User " + response.body.toString();
         }
       } catch (error) {
-        print("Failed to get User " + error.toString());
         return "Failed to get User " + error.toString();
       }
     }
@@ -495,11 +455,9 @@ class GlpiApi {
           return "OK";
 
         } else {
-          print( 'Failed to get SolutionTypes ' + response.statusCode.toString());
           return 'Failed to get SolutionTypes ' + response.body.toString();
         }
       } catch (error) {
-        print('Failed to get SolutionTypes ' + error.toString());
         return 'Failed to get SolutionTypes ' + error.toString();
       }
     }
@@ -557,11 +515,22 @@ class GlpiApi {
   }
 */
 
-  // в main каждый раз при получении FCM token записывается в preferencies и устанвливается Settings.tokenFCM
-  // при входпе в settingPage также Settings.tokenFCM устанвливается из preferencies
-
-  // sendToken вызывается из getUsers каждый раз после получения users (чтобы не дублировать и не ждать  обновления users)
-  // или из SettingPage при сохранении установок
+  // FCM token
+  //      в main
+  //            при входе записывается из preferencies в Settings.tokenFCM
+  //            при получении токена из FCM
+  //                  записывается в preferencies и в Settings.tokenFCM
+  //      в SettingsPage
+  //            ? при входе записывается из preferencies в Settings.tokenFCM
+  //
+  // sendToken вызывается
+  //    нет из main каждый раз при получении токена из FCM
+  //    нет из SettingPage при сохранении установок
+  //    только из getUsers каждый раз после получения users и определения Id текущего пользователя (чтобы не дублировать и не ждать  обновления users)
+  //
+  // SendToken пишет токен в бд
+  //        если Settings.tokenFCM отличается от того который есть в поле mobile_notification текущего пользователя
+  //        если Settings.getMessage == false то в бд пишет пустой FCM
 
   Future<String> sendToken() async {
 
@@ -580,7 +549,7 @@ class GlpiApi {
       int userid = Settings.userID;
 
       var body =
-          jsonEncode(_input); //   _followup.toJson(); json.encode(_followup),
+          jsonEncode(_input);
 
       if (GLPI_SESSION.isEmpty) {
         String _answer = await requestSession();
@@ -601,11 +570,9 @@ class GlpiApi {
           );
 
           if (response.statusCode != 200 && response.statusCode != 207) {
-            print(response.statusCode.toString());
             return response.body.toString();
           }
         } catch (error) {
-          print(error.toString());
           return error.toString();
         }
       }

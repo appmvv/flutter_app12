@@ -348,6 +348,7 @@ class SettingsPageState_new extends State<SettingsPage_new> {
 
     _changed = false;
 
+    // начинаем все снова
     Provider.of<TicketsProvider>(context, listen: false).getTickets();
 
 
