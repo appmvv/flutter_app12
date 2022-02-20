@@ -69,6 +69,8 @@ flutter_icons:
   image_path: "assets/icon/int-services-1024.png"
   remove_alpha_ios: true
 
+dependency_overrides:
+  platform: ^3.1.0
 
 #  json_annotation: ^4.0.0
 
