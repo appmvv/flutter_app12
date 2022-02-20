@@ -1,5 +1,7 @@
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/models/Ticket.dart';
 import 'package:flutter_app/providers/TicketsProvider.dart';
 import 'package:flutter_app/widgets/Tickets/TicketPage.dart';
@@ -7,15 +9,21 @@ import 'package:flutter_app/widgets/Tickets/TicketItem.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../SettingsPage_new.dart';
+import '../SettingsPage.dart';
 
-class TicketList_new extends StatelessWidget {
+class TicketList extends StatefulWidget {
+  @override
+  TicketListState createState() {
+    return TicketListState();
+  }
+}
+
+class TicketListState extends State {
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
 
     return Consumer<TicketsProvider>(builder: (context, value, child) {
-
       List<Ticket> tickets = value.tickets;
 
       String _error = value.ticketsError;
@@ -29,17 +37,25 @@ class TicketList_new extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                         onPressed: () {
+                          setState(() {
+                            value.clearTicketsError();
+                          });
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SettingsPage_new()),
+                            MaterialPageRoute(
+                                builder: (context) => SettingsPage()),
                           );
                         },
                         child: Text(AppLocalizations.of(context).settings)),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context); //SystemNavigator.pop;
-                        },
-                        child: Text(AppLocalizations.of(context).close)),
+                    defaultTargetPlatform ==
+                            TargetPlatform
+                                .iOS // Apple requires not to close app
+                        ? Text("")
+                        : TextButton(
+                            onPressed: () {
+                              SystemNavigator.pop();
+                            },
+                            child: Text(AppLocalizations.of(context).close)),
                   ],
                 )
               : (tickets == null // || tickets.length == 0
@@ -65,8 +81,7 @@ class TicketList_new extends StatelessWidget {
                                   padding: EdgeInsets.only(right: 10.0),
                                   child: TicketItem(tickets[i]),
                                 ));
-                          }),
-                    )));
+                          }))));
     });
 //       });
   }

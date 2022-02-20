@@ -1,13 +1,13 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/TicketsProvider.dart';
-import 'package:flutter_app/widgets/Tickets/TicketList_new.dart';
+import 'package:flutter_app/widgets/Tickets/TicketList.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
-import '../SettingsPage_new.dart';
+import '../SettingsPage.dart';
 import 'TicketPage.dart';
 
 class TicketListPage extends StatefulWidget {
@@ -114,13 +114,13 @@ class TicketListPageState extends State<TicketListPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SettingsPage_new()),
+                MaterialPageRoute(builder: (context) => SettingsPage()),
               );
             },
           ),
         ],
       ),
-      body: TicketList_new(),
+      body: TicketList(),
     );
   }
 }

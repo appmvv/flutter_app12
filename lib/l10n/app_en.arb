@@ -23,7 +23,7 @@
 
   "save": "Save",
   "saved": "Saved",
-  "close": "Close",
+  "close": "Exit",
 
   "errorSessionToken": "Connection to server error",
 

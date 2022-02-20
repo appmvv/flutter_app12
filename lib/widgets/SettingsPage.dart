@@ -18,14 +18,14 @@ import 'Tickets/TicketListPage.dart';
 
 import 'package:flutter_app/providers/TicketsProvider.dart';
 
-class SettingsPage_new extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   @override
-  SettingsPageState_new createState() {
-    return SettingsPageState_new();
+  SettingsPageState createState() {
+    return SettingsPageState();
   }
 }
 
-class SettingsPageState_new extends State<SettingsPage_new> {
+class SettingsPageState extends State<SettingsPage> {
 
   String _url=Settings.initUrl ;
   String _url0;

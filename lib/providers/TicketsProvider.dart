@@ -11,38 +11,39 @@ class TicketsProvider with ChangeNotifier {
 
   String _getTicketsError="";
   String get ticketsError => _getTicketsError;
-
-
-  TicketsProvider () {
-    getTickets();
+  void clearTicketsError() {
+    _getTicketsError = "";
   }
 
-  int getTicketsCount() {
-    return _tickets.length;
-  }
 
-  Future<void> getTickets() async {
-
-    _getTicketsError="";
-
-    try {
-      api.getTickets().then((list) {
-
-        if (list is List) {
-          _tickets = list;
-        } else {
-          _tickets=null;
-          _getTicketsError =list.toString();
-        }
-        notifyListeners();
-      });
-    } catch (e) {
-      _getTicketsError =e.toString();
-      _tickets=null;
-      notifyListeners();
+    TicketsProvider () {
+      getTickets();
     }
 
+    int getTicketsCount() {
+      return _tickets.length;
+    }
+
+    Future<void> getTickets() async {
+
+      _getTicketsError="";
+
+      try {
+        api.getTickets().then((list) {
+
+          if (list is List) {
+            _tickets = list;
+          } else {
+            _tickets=null;
+            _getTicketsError =list.toString();
+          }
+          notifyListeners();
+        });
+      } catch (e) {
+        _getTicketsError =e.toString();
+        _tickets=null;
+        notifyListeners();
+      }
+
+    }
   }
-
-
-}

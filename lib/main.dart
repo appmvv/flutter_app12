@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/SolutionsProvider.dart';
 import 'package:flutter_app/providers/TicketProvider.dart';
 
-import 'package:flutter_app/widgets/SettingsPage_new.dart';
+import 'package:flutter_app/widgets/SettingsPage.dart';
 import 'package:flutter_app/widgets/Tickets/TicketListPage.dart';
 import 'package:flutter_app/providers/TicketsProvider.dart';
 
@@ -73,8 +73,6 @@ Future<void> main() async {
     sound: true,
   );
 
-
-
   // initial settingd
   SharedPreferences preferences = await SharedPreferences.getInstance();
   Settings.tokenFCM = preferences.getString("FCMtoken") ?? "";
@@ -131,7 +129,7 @@ class GlpiApp extends StatelessWidget {
             const Locale('ru', ''),
           ],
           home: Settings.glpiUrl == Settings.initUrl
-              ? SettingsPage_new()
+              ? SettingsPage()
               : TicketListPage(),
         ));
   }
