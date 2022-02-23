@@ -68,37 +68,45 @@ class GlpiApi {
   }
 
   // вызывается из SettingPage при сохранении настроек
+//  Future<String> killSession(String session, String url, int userId) async {
   Future<String> killSession() async {
-    if (GLPI_SESSION.isNotEmpty) {
-      String _return = "";
 
-      sendToken(
-          token:
-              ""); // сбрасываем токен текущего пользователя (= Settings.userId )
+    String _session = GLPI_SESSION;
+    String _url = Settings.glpiUrl;
 
-      Map<String, String> headers = {
-        HttpHeaders.contentTypeHeader: "application/json", // or whatever
-        'Session-Token': GLPI_SESSION,
-      };
+    if (_session.isEmpty) return "Failed to kill session: no session";
 
-      try {
-        var response = await _httpClient.get(
-          GLPI_URL + "killSession",
-          headers: headers,
-        );
+    String _return = "";
 
-        if (response.statusCode != 200) {
-          _return = "Failed to kill session: " + response.statusCode.toString();
-        }
-      } catch (error) {
-        _return = 'Failed to kill session: ' + error.toString();
+    // await is necessary to do before new session open
+    await sendToken(
+        // session: session,
+        // url: url,
+        // userId: userId,
+        token:
+            ""); // сбрасываем токен текущего пользователя (= Settings.userId )
+
+    GLPI_SESSION = "";
+
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: "application/json", // or whatever
+      'Session-Token': _session,
+    };
+
+    try {
+      var response = await _httpClient.get(
+        _url + "killSession",
+        headers: headers,
+      );
+
+      if (response.statusCode != 200) {
+        _return = "Failed to kill session: " + response.statusCode.toString();
       }
-
-      GLPI_SESSION = "";
-      return _return;
+    } catch (error) {
+      _return = 'Failed to kill session: ' + error.toString();
     }
 
-    return "";
+    return _return;
   }
 
   // вызывается через TicketsProvider из main, при обновлении списка и из SettingsPage при сохранении
@@ -529,13 +537,20 @@ class GlpiApi {
   //        если Settings.tokenFCM отличается от того который есть в поле mobile_notification текущего пользователя
   //        если Settings.getMessage == false то в бд пишет пустой FCM
 
+//  Future<String> sendToken({String session, String url, int userId, String token}) async {
   Future<String> sendToken({String token}) async {
+    // String _session = session == null ? GLPI_SESSION : session;
+    // String _url = url == null ? GLPI_URL : url;
+    // int _userId = userId == null ? Settings.userID : userId;
 
-    if (Settings.userID > 0) {
-      String _token = token != null
-          ? token
-          : (Settings.getMessages ? Settings.tokenFCM : "");
+    String _session = GLPI_SESSION;
+    String _url = GLPI_URL;
+    int _userId = Settings.userID;
 
+    String _token =
+        token != null ? token : (Settings.getMessages ? Settings.tokenFCM : "");
+
+    if (_userId > 0 && _url.isNotEmpty && _session.isNotEmpty) {
       // если token отличается от того что на сервере - то пишем на сервер
       // if (Settings.users[Settings.userName] != null &&
       //     Settings.tokenPrefix + _token !=
@@ -550,30 +565,28 @@ class GlpiApi {
 
       var body = jsonEncode(_input);
 
-      if (GLPI_SESSION.isEmpty) {
-        String _answer = await requestSession();
-        if (_answer.isNotEmpty) return _answer;
-      }
+      // if (GLPI_SESSION.isEmpty) {
+      //   String _answer = await requestSession();
+      //   if (_answer.isNotEmpty) return _answer;
+      // }
 
-      if (GLPI_SESSION.isNotEmpty) {
-        Map<String, String> headers = {
-          HttpHeaders.contentTypeHeader: "application/json", // or whatever
-          'Session-Token': GLPI_SESSION,
-        };
+      Map<String, String> headers = {
+        HttpHeaders.contentTypeHeader: "application/json", // or whatever
+        'Session-Token': _session,
+      };
 
-        try {
-          var response = await _httpClient.put(
-            GLPI_URL + "User/${Settings.userID}",
-            headers: headers,
-            body: body,
-          );
+      try {
+        var response = await _httpClient.put(
+          _url + "User/${_userId}",
+          headers: headers,
+          body: body,
+        );
 
-          if (response.statusCode != 200 && response.statusCode != 207) {
-            return response.body.toString();
-          }
-        } catch (error) {
-          return error.toString();
+        if (response.statusCode != 200 && response.statusCode != 207) {
+          return response.body.toString();
         }
+      } catch (error) {
+        return error.toString();
       }
     }
 

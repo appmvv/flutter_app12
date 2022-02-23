@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/GlpiApi.dart';
 import 'package:flutter_app/providers/SolutionsProvider.dart';
 import 'package:flutter_app/providers/TicketProvider.dart';
 
@@ -90,7 +91,8 @@ Future<void> main() async {
   void setToken(String token) async {
     preferences.setString("FCMtoken", token);
     Settings.tokenFCM = token;
-    //TODO  ? надо вызывать sendToken ?
+    GlpiApi api=GlpiApi();
+    api.sendToken();
   }
 
   FirebaseMessaging.instance.getToken().then(setToken);

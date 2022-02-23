@@ -325,6 +325,12 @@ class SettingsPageState extends State<SettingsPage> {
 
   _putdata(BuildContext context) async {
 
+ //   await api.killSession(GlpiApi.GLPI_SESSION, Settings.glpiUrl, Settings.userID);
+
+    // сбрасываем сессию и FCM token для старого поользователя
+    // должен быть await : не менять settings пока не сборсится token и session
+    await api.killSession();
+
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("url", _url);
     preferences.setString("user", _user);
@@ -335,9 +341,6 @@ class SettingsPageState extends State<SettingsPage> {
     String _credentials = utf8.fuse(base64).encode('$_user:$_password');
     preferences.setString("credentials", _credentials);
 
-    /*
-    Settings.userId не трогаем, чтобы сборсить fcm токен из killSession
-    */
     Settings.notSolvedOnly = _notsolved;
     Settings.sortByUpdate = _sortbyupdate;
     Settings.getMessages = _getmessages;
@@ -345,19 +348,10 @@ class SettingsPageState extends State<SettingsPage> {
     Settings.glpiUrl = _url;
     Settings.credentials = _credentials;
 
-    if (GlpiApi.GLPI_SESSION.isNotEmpty) {
-
-      await api.killSession();
-    }
-
-//    GlpiApi.GLPI_SESSION = ""; // перенесено в killSession
-//    api.requestSession();
-
     _changed = false;
 
     // начинаем все снова
     Provider.of<TicketsProvider>(context, listen: false).getTickets();
-
 
     if (_url0 == Settings.initUrl) {
       Navigator.pushReplacement(
