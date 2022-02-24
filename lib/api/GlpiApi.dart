@@ -527,18 +527,20 @@ class GlpiApi {
   //            при получении токена из FCM
   //                  записывается в preferencies и в Settings.tokenFCM
   //      в SettingsPage
-  //            убрано ? при входе записывается из preferencies в Settings.tokenFCM
+  //            НЕТ при входе записывается из preferencies в Settings.tokenFCM
   //
   // sendToken вызывается
-  //    ? нет из main каждый раз при получении токена из FCM
-  //    из getUsers после получения users и определения Id текущего пользователя (чтобы не дублировать и не ждать  обновления users)
-  //    из SettingsPage -> killSession, чтобы очистить token в бд
+  //    НЕТ из main каждый раз при получении токена из FCM
+  //    из initSession после getUsers и определения Id текущего пользователя (чтобы не дублировать и не ждать  обновления users)
+  //    из SettingsPage.putData -> killSession, чтобы очистить token в бд
   // SendToken пишет токен в бд
-  //        если Settings.tokenFCM отличается от того который есть в поле mobile_notification текущего пользователя
-  //        если Settings.getMessage == false то в бд пишет пустой FCM
+  //        пустой токен, если вызывается из killSession или Settings.getMessage == false
+  //        Settings.tokenFCM, если Settings.getMessage == true
 
 //  Future<String> sendToken({String session, String url, int userId, String token}) async {
+
   Future<String> sendToken({String token}) async {
+
     // String _session = session == null ? GLPI_SESSION : session;
     // String _url = url == null ? GLPI_URL : url;
     // int _userId = userId == null ? Settings.userID : userId;
@@ -551,10 +553,6 @@ class GlpiApi {
         token != null ? token : (Settings.getMessages ? Settings.tokenFCM : "");
 
     if (_userId > 0 && _url.isNotEmpty && _session.isNotEmpty) {
-      // если token отличается от того что на сервере - то пишем на сервер
-      // if (Settings.users[Settings.userName] != null &&
-      //     Settings.tokenPrefix + _token !=
-      //         Settings.users[Settings.userName].mobile_notification) {
 
       Map<String, String> input = new Map<String, String>();
 
@@ -564,11 +562,6 @@ class GlpiApi {
       Map<String, Object> _input = {'input': input};
 
       var body = jsonEncode(_input);
-
-      // if (GLPI_SESSION.isEmpty) {
-      //   String _answer = await requestSession();
-      //   if (_answer.isNotEmpty) return _answer;
-      // }
 
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json", // or whatever
