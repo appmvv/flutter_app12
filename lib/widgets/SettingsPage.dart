@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/GlpiApi.dart';
 import 'package:flutter_app/models/Settings.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,9 @@ class SettingsPageState extends State<SettingsPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  GlpiApi api = GlpiApi();
+  //GlpiApi api = GlpiApi();
+
+  final GlpiApi api = GetIt.I.get<GlpiApi>();
 
   @override
   void initState() {

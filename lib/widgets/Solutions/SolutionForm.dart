@@ -54,7 +54,7 @@ class SolutionFormState extends State<SolutionForm> {
                       }).toList(),
                     )),
                 Padding(
-                    padding: EdgeInsets.only(top:16, left:10.0, right:10),
+                    padding: EdgeInsets.only(top:16, left:10.0, right:10,bottom:16),
                     child: TextFormField(
                       minLines: 4,
                       maxLines: 6,

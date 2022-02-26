@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/api/GlpiApi.dart';
 import 'package:flutter_app/models/Ticket.dart';
+import 'package:get_it/get_it.dart';
 
 class TicketsProvider with ChangeNotifier {
 
-  GlpiApi api = GlpiApi();
+//  GlpiApi api = GlpiApi();
+  final GlpiApi api = GetIt.I.get<GlpiApi>();
 
   List<Ticket> _tickets;
   List<Ticket> get tickets => _tickets;

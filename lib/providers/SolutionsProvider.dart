@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/api/GlpiApi.dart';
 import 'package:flutter_app/models/Solution.dart';
+import 'package:get_it/get_it.dart';
 
 class SolutionsProvider with ChangeNotifier {
 
-  GlpiApi api = GlpiApi();
+//  GlpiApi api = GlpiApi();
+  final GlpiApi api = GetIt.I.get<GlpiApi>();
 
   List<Solution> _solutions = [];
   List<Solution> get solutions => _solutions;

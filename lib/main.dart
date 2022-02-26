@@ -17,6 +17,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'api/AppLocator.dart';
 import 'models/Settings.dart';
 
 import 'package:flutter_app/providers/FollowupsProvider.dart';
@@ -96,6 +97,8 @@ Future<void> main() async {
   FirebaseMessaging.instance.getToken().then(setToken);
   _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
   _tokenStream.listen(setToken);
+
+  AppLocator.init();
 
   runApp(GlpiApp());
 
