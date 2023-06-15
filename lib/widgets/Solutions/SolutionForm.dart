@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class SolutionForm extends StatefulWidget {
 
-  final int _ticketId;
+  final int? _ticketId;
 
   SolutionForm(this._ticketId);
 
@@ -20,8 +20,8 @@ class SolutionFormState extends State<SolutionForm> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String _content;
-  String _solutiontype;
+  String? _content;
+  String? _solutiontype;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class SolutionFormState extends State<SolutionForm> {
                       decoration: const InputDecoration(
                         border: const OutlineInputBorder(),
                       ),
-                      hint: Text(AppLocalizations.of(context).solutionType), // Not necessary for Option 1
+                      hint: Text(AppLocalizations.of(context)!.solutionType), // Not necessary for Option 1
                       value: _solutiontype,
                       onChanged: (newValue) {
                         setState(() {
@@ -48,7 +48,7 @@ class SolutionFormState extends State<SolutionForm> {
                       },
                       items: Settings.SolutionTypes.map((data) {
                         return DropdownMenuItem<String>(
-                          child: new Text(data),
+                          child: new Text(data!),
                           value: data,
                         );
                       }).toList(),
@@ -61,13 +61,13 @@ class SolutionFormState extends State<SolutionForm> {
                       decoration: InputDecoration(
 //                    hintText: 'Enter your email',
                         labelText:
-                            AppLocalizations.of(context).solutionContent + " *",
+                            AppLocalizations.of(context)!.solutionContent + " *",
 //                     errorText: 'Error message',
                         border: OutlineInputBorder(),
                       ),
-                      validator: (String value) {
+                      validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context).required;
+                          return AppLocalizations.of(context)!.required;
                         }
                         _content = value;
                         return null;
@@ -80,13 +80,13 @@ class SolutionFormState extends State<SolutionForm> {
                       onPressed: () {
                         // Validate will return true if the form is valid, or false if
                         // the form is invalid.
-                        if (_formKey.currentState.validate()) {
+                        if (_formKey.currentState!.validate()) {
 
                           _addSolution();
                           // Process data.
                         }
                       },
-                      child: Text(AppLocalizations.of(context).save),
+                      child: Text(AppLocalizations.of(context)!.save),
                     ))
               ],
             ))) ;
@@ -104,7 +104,7 @@ class SolutionFormState extends State<SolutionForm> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text( AppLocalizations
-                .of(context)
+                .of(context)!
                 .solution_adding_error +
                 " " +
                 string),

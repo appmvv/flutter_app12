@@ -12,10 +12,10 @@ import '../Followups/FollowupPage.dart';
 import '../Solutions/SolutionPage.dart';
 
 class TicketPage extends StatelessWidget {
-  final int _ticketId;
-  final String _messagetype;
+  final int? _ticketId;
+  final String? _messagetype;
 
-  Icon _followupIcon;
+  Icon? _followupIcon;
 
   TicketPage(this._ticketId, this._messagetype) {
     _followupIcon = _messagetype == "followup"
@@ -35,7 +35,7 @@ class TicketPage extends StatelessWidget {
 
     return Consumer2<TicketProvider, SolutionsProvider>(
         builder: (context, ticketValue, SolutionValue, child) {
-      Ticket _ticket = ticketValue.ticket;
+      Ticket? _ticket = ticketValue.ticket;
 
       String _error = ticketValue.error;
 
@@ -47,13 +47,13 @@ class TicketPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppLocalizations.of(context).ticket +
+              Text(AppLocalizations.of(context)!.ticket +
                   " " +
                   (_ticket == null || _error.isNotEmpty
                       ? ""
                       : _ticketId.toString())),
               Text(
-                _ticket == null || _error.isNotEmpty ? "" : _ticket.tdate,
+                _ticket == null || _error.isNotEmpty ? "" : _ticket.tdate!,
                 textScaleFactor: 0.7,
               ),
             ],
@@ -62,14 +62,14 @@ class TicketPage extends StatelessWidget {
               onRefresh: () => ticketValue.getTicket(_ticketId),
               child: _error.isNotEmpty
                   ? AlertDialog(
-                      title: Text(AppLocalizations.of(context).errorTicket),
+                      title: Text(AppLocalizations.of(context)!.errorTicket),
                       content: Text(_error),
                       actions: <Widget>[
                         TextButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text(AppLocalizations.of(context).close)),
+                            child: Text(AppLocalizations.of(context)!.close)),
                       ],
                     )
                   : (_ticket == null

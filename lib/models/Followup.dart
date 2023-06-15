@@ -10,13 +10,13 @@
 //@JsonSerializable()
 
 class Followup {
-  int id;
-  int is_private;
-  String content;
-  String date_creation;
-  String users_id;
+  int? id;
+  int? is_private;
+  String? content;
+  String? date_creation;
+  String? users_id;
   static final String itemtype = "Ticket";
-  Object items_id;
+  Object? items_id;
 
   // "entities_id":0,"name":"name 1","date":"2021-02-13 12:00:00","closedate":null,"solvedate":null,"date_mod":"2021-02-13 11:33:52","users_id_lastupdater":6,"status":2,"users_id_recipient":6,"requesttypes_id":1,"content":"&lt;p&gt;test 1&lt;/p&gt;","urgency":3,"impact":3,"priority":3,"itilcategories_id":0,"type":1,
 

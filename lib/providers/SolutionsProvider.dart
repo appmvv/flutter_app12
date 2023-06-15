@@ -28,7 +28,7 @@ class SolutionsProvider with ChangeNotifier {
     try {
       api.getSolutions(_ticketId).then((list) {
         if (list is List) {
-          _solutions = list;
+          _solutions = list as List<Solution>;
         } else {
           _solutions=[];
           _getError = list.toString();
@@ -42,7 +42,7 @@ class SolutionsProvider with ChangeNotifier {
     }
   }
 
-  Future<String> addSolution(int _ticketId, String _content, String _solutiontype) async {
+  Future<String> addSolution(int? _ticketId, String? _content, String? _solutiontype) async {
 
     String string = await api.addSolution(_ticketId, _content, _solutiontype);
 

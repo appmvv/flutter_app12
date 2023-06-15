@@ -14,7 +14,7 @@ class TicketItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return (_ticket == null
-        ? new Text(AppLocalizations.of(context).errorTicket)
+        ? new Text(AppLocalizations.of(context)!.errorTicket)
         : new Container(
             margin: EdgeInsets.all(5),
             child: new Table(columnWidths: {
@@ -73,13 +73,13 @@ class TicketItem extends StatelessWidget {
                                   alignment: Alignment.centerLeft,
                                   child: new Text(
                                       Settings.users[_ticket.recipient] != null
-                                          ? Settings.users[_ticket.recipient]
+                                          ? Settings.users[_ticket.recipient]!
                                           .getUserName()
-                                          : _ticket.recipient),
+                                          : _ticket.recipient!),
                                 ),
                                 Align(
                                   alignment: Alignment.centerRight,
-                                  child: new Text(_ticket.getEntity()),
+                                  child: new Text(_ticket.getEntity()!),
                                 )
 
                               ])
@@ -87,7 +87,7 @@ class TicketItem extends StatelessWidget {
                           ),
                           new Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: new Text(_ticket.name),
+                            child: new Text(_ticket.name!),
                           ),
                         ]))
               ])

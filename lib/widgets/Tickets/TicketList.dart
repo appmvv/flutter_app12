@@ -24,7 +24,7 @@ class TicketListState extends State {
     final ScrollController _scrollController = ScrollController();
 
     return Consumer<TicketsProvider>(builder: (context, value, child) {
-      List<Ticket> tickets = value.tickets;
+      List<Ticket>? tickets = value.tickets;
 
       String _error = value.ticketsError;
 
@@ -32,7 +32,7 @@ class TicketListState extends State {
           onRefresh: value.getTickets,
           child: _error.isNotEmpty
               ? AlertDialog(
-                  title: Text(AppLocalizations.of(context).errorTicketList),
+                  title: Text(AppLocalizations.of(context)!.errorTicketList),
                   content: Text(_error),
                   actions: <Widget>[
                     TextButton(
@@ -46,7 +46,7 @@ class TicketListState extends State {
                                 builder: (context) => SettingsPage()),
                           );
                         },
-                        child: Text(AppLocalizations.of(context).settings)),
+                        child: Text(AppLocalizations.of(context)!.settings)),
                     defaultTargetPlatform ==
                             TargetPlatform
                                 .iOS // Apple requires not to close app
@@ -55,7 +55,7 @@ class TicketListState extends State {
                             onPressed: () {
                               SystemNavigator.pop();
                             },
-                            child: Text(AppLocalizations.of(context).close)),
+                            child: Text(AppLocalizations.of(context)!.close)),
                   ],
                 )
               : (tickets == null // || tickets.length == 0

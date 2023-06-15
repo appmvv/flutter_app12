@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class FollowupMessage extends StatefulWidget {
-  final int _ticketId;
+  final int? _ticketId;
 
   FollowupMessage(this._ticketId); //, this.callback);
 
@@ -14,14 +14,14 @@ class FollowupMessage extends StatefulWidget {
 
 class FollowupMessageState extends State<FollowupMessage> {
 
-  int _ticketid;
+  int? _ticketid;
   bool _is_private = false;
 
   FollowupMessageState(ticketid) {
     _ticketid = ticketid;
   }
 
-  TextEditingController _content;
+  TextEditingController? _content;
   bool _sendEnabled = false;
 
   @override
@@ -32,7 +32,7 @@ class FollowupMessageState extends State<FollowupMessage> {
 
   @override
   void dispose() {
-    _content.dispose();
+    _content!.dispose();
     super.dispose();
   }
 
@@ -77,7 +77,7 @@ class FollowupMessageState extends State<FollowupMessage> {
                 },
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  labelText: AppLocalizations.of(context).followup_message,
+                  labelText: AppLocalizations.of(context)!.followup_message,
                 ),
               ),
             ),
@@ -91,11 +91,11 @@ class FollowupMessageState extends State<FollowupMessage> {
 
   Future<void> _addFollowup() async {
     Provider.of<FollowupsProvider>(context, listen: false)
-        .addFollowup(_ticketid, _content.text, _is_private)
+        .addFollowup(_ticketid, _content!.text, _is_private)
         .then((string) {
       if (string == "") {
         setState(() {
-          _content.text = "";
+          _content!.text = "";
           _is_private = false;
           _sendEnabled = false;
           FocusScope.of(context).unfocus();
@@ -103,7 +103,7 @@ class FollowupMessageState extends State<FollowupMessage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text( AppLocalizations
-                .of(context)
+                .of(context)!
                 .followup_adding_error +
                 " " +
                 string),

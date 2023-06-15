@@ -15,7 +15,7 @@ class FollowupItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (_followup == null
-        ? new Text(AppLocalizations.of(context).errorFollowup)
+        ? new Text(AppLocalizations.of(context)!.errorFollowup)
         : new Container(
             margin: EdgeInsets.only(top:5, bottom:5, right: 15),
             child: new Table(columnWidths: {
@@ -52,9 +52,9 @@ class FollowupItem extends StatelessWidget {
                             new TableRow(children: [
                               new Text(
                                   Settings.users[_followup.users_id] != null
-                                      ? Settings.users[_followup.users_id]
+                                      ? Settings.users[_followup.users_id]!
                                           .getUserName()
-                                      : _followup.users_id),
+                                      : _followup.users_id!),
                               (_followup.is_private == 1
                                   ? new Icon(Icons.lock)
                                   : Text("")),
@@ -71,7 +71,7 @@ class FollowupItem extends StatelessWidget {
                             child: SingleChildScrollView(
                                 child: Html(
                                     data: HtmlUnescape()
-                                        .convert(_followup.content))),
+                                        .convert(_followup.content!))),
                           ),
                         ]))
               ])

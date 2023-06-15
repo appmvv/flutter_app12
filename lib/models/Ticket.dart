@@ -4,20 +4,20 @@ import 'package:flutter_app/models/Settings.dart';
 import 'package:intl/intl.dart';
 
 class Ticket {
-  int id;
-  final String name;
-  final String content;
-  final String tdate;
-  final String recipient;
-  final String entity;
-  final int priority;
-  final int urgency;
-  final int status;
-  final int impact;
-  final Object resolvetime;
-  final Object category;
-  final Object solvedate;
-  final int type;
+  int? id;
+  final String? name;
+  final String? content;
+  final String? tdate;
+  final String? recipient;
+  final String? entity;
+  final int? priority;
+  final int? urgency;
+  final int? status;
+  final int? impact;
+  final Object? resolvetime;
+  final Object? category;
+  final Object? solvedate;
+  final int? type;
 
 
   // "entities_id":0,"name":"name 1","date":"2021-02-13 12:00:00","closedate":null,"solvedate":null,"date_mod":"2021-02-13 11:33:52","users_id_lastupdater":6,"status":2,"users_id_recipient":6,"requesttypes_id":1,"content":"&lt;p&gt;test 1&lt;/p&gt;","urgency":3,"impact":3,"priority":3,"itilcategories_id":0,"type":1,
@@ -98,8 +98,8 @@ class Ticket {
     );
   }
 
-  String getEntity() {
-    var names = entity.split(">");
+  String? getEntity() {
+    var names = entity!.split(">");
     if (names.length>0) return names[names.length-1].trim();
     else return entity;
   }
@@ -111,7 +111,7 @@ class Ticket {
       if (resolvetime == null)  return Colors.transparent;
 
       DateTime now = DateTime.now();
-      DateTime resolve = DateFormat(Settings.glpiDateFormat).parse(resolvetime);
+      DateTime resolve = DateFormat(Settings.glpiDateFormat).parse(resolvetime as String);
       if (resolve.isBefore(now)) return Colors.red;
 //      else if (resolve.day == now.day && resolve.month==now.month && resolve.year==now.year) return Colors.amber;
       else if (resolve.difference(now).inDays==0) return Colors.amber;

@@ -29,7 +29,7 @@ class SettingsPage extends StatefulWidget {
 class SettingsPageState extends State<SettingsPage> {
 
   String _url=Settings.initUrl ;
-  String _url0;
+  String? _url0;
   String _user=Settings.userName;
   String _password="";
   bool _notsolved=Settings.notSolvedOnly;
@@ -60,14 +60,14 @@ class SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime _lastQuitTime;
+    DateTime? _lastQuitTime;
 
     return WillPopScope(
         onWillPop: () async {
           if (_lastQuitTime == null && _changed) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
-                  AppLocalizations.of(context).notToSave),
+                  AppLocalizations.of(context)!.notToSave),
               backgroundColor: Colors.redAccent,
             ));
 
@@ -81,12 +81,12 @@ class SettingsPageState extends State<SettingsPage> {
           }
         },
         child: Scaffold(
-            appBar: AppBar(title: Text(AppLocalizations.of(context).settings)),
+            appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
             body: StreamBuilder<bool>(
                 stream: _streamController.stream,
                 initialData: false,
                 builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                  bool preferences = snapshot.data;
+                  bool preferences = snapshot.data!;
                   if (!preferences) {
                     return Center (child: CircularProgressIndicator());
                   } else {
@@ -109,7 +109,7 @@ class SettingsPageState extends State<SettingsPage> {
                                         Expanded(
                                             //                                         width: MediaQuery.of(context).size.width*0.6,
                                             child: Text(
-                                                AppLocalizations.of(context)
+                                                AppLocalizations.of(context)!
                                                     .notsolvedonly)),
                                         Switch(
                                           value: _notsolved,
@@ -133,7 +133,7 @@ class SettingsPageState extends State<SettingsPage> {
                                       children: <Widget>[
                                         Expanded(
                                             child: Text(
-                                                AppLocalizations.of(context)
+                                                AppLocalizations.of(context)!
                                                     .sortbyupdate)),
                                         Switch(
                                           value: _sortbyupdate,
@@ -155,7 +155,7 @@ class SettingsPageState extends State<SettingsPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(AppLocalizations.of(context)
+                                        Text(AppLocalizations.of(context)!
                                             .getmessages),
                                         Switch(
                                           value: _getmessages,
@@ -184,18 +184,18 @@ class SettingsPageState extends State<SettingsPage> {
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.cloud),
                                       hintText:
-                                          AppLocalizations.of(context).enterUrl,
+                                          AppLocalizations.of(context)!.enterUrl,
                                       labelText:
-                                          AppLocalizations.of(context).url +
+                                          AppLocalizations.of(context)!.url +
                                               "*", //'Url *',
                                     ),
-                                    validator: (String value) {
+                                    validator: (String? value) {
                                       _changed = _changed || (_url != value);
 
                                       if (value == null ||
                                           value.characters.length == 0 ||
                                           !Uri.parse(value).isAbsolute) {
-                                        return AppLocalizations.of(context)
+                                        return AppLocalizations.of(context)!
                                             .required; //errorUrl;
                                       } else {
                                         _url = value;
@@ -210,18 +210,18 @@ class SettingsPageState extends State<SettingsPage> {
                                     initialValue: _user,
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.person),
-                                      hintText: AppLocalizations.of(context)
+                                      hintText: AppLocalizations.of(context)!
                                           .enterName,
                                       labelText:
-                                          AppLocalizations.of(context).name +
+                                          AppLocalizations.of(context)!.name +
                                               "*",
                                     ),
-                                    validator: (String value) {
+                                    validator: (String? value) {
                                       _changed = _changed || (_user != value);
 
                                       if (value == null ||
                                           value.characters.length == 0) {
-                                        return AppLocalizations.of(context)
+                                        return AppLocalizations.of(context)!
                                             .required; //errorName;
                                       } else {
                                         _user = value;
@@ -236,9 +236,9 @@ class SettingsPageState extends State<SettingsPage> {
                                     obscureText: _obscurePass,
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.security),
-                                      hintText: AppLocalizations.of(context)
+                                      hintText: AppLocalizations.of(context)!
                                           .enterPassword,
-                                      labelText: AppLocalizations.of(context)
+                                      labelText: AppLocalizations.of(context)!
                                               .password +
                                           "*",
                                       suffixIcon: IconButton(
@@ -254,13 +254,13 @@ class SettingsPageState extends State<SettingsPage> {
                                         },
                                       ),
                                     ),
-                                    validator: (String value) {
+                                    validator: (String? value) {
                                       _changed =
                                           _changed || (_password != value);
 
                                       if (value == null ||
                                           value.characters.length == 0) {
-                                        return AppLocalizations.of(context)
+                                        return AppLocalizations.of(context)!
                                             .required; //errorPassword; //'Password is empty.';
                                       } else {
                                         _password = value;
@@ -277,7 +277,7 @@ class SettingsPageState extends State<SettingsPage> {
                                       // Validate returns true if the form is valid, or false otherwise.
 //                                      String text =AppLocalizations.of(context).saved;
 //                                      Color color = Colors.green;
-                                      if (_formKey.currentState.validate()) {
+                                      if (_formKey.currentState!.validate()) {
                                         // If the form is valid, display a snackbar. In the real world,
                                         // you'd often call a server or save the information in a database.
                                         _putdata(context);
@@ -288,7 +288,7 @@ class SettingsPageState extends State<SettingsPage> {
 
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
-                                          content: Text(AppLocalizations.of(context)
+                                          content: Text(AppLocalizations.of(context)!
                                               .errorSettings),
                                           backgroundColor: Colors.red,
                                         ));
@@ -298,7 +298,7 @@ class SettingsPageState extends State<SettingsPage> {
 
                                     },
                                     child:
-                                        Text(AppLocalizations.of(context).save),
+                                        Text(AppLocalizations.of(context)!.save),
                                   )
                                 ],
                               ),

@@ -8,8 +8,8 @@ class TicketsProvider with ChangeNotifier {
 //  GlpiApi api = GlpiApi();
   final GlpiApi api = GetIt.I.get<GlpiApi>();
 
-  List<Ticket> _tickets;
-  List<Ticket> get tickets => _tickets;
+  List<Ticket>? _tickets;
+  List<Ticket>? get tickets => _tickets;
 
   String _getTicketsError="";
   String get ticketsError => _getTicketsError;
@@ -23,7 +23,7 @@ class TicketsProvider with ChangeNotifier {
     }
 
     int getTicketsCount() {
-      return _tickets.length;
+      return _tickets!.length;
     }
 
     Future<void> getTickets() async {
@@ -34,7 +34,7 @@ class TicketsProvider with ChangeNotifier {
         api.getTickets().then((list) {
 
           if (list is List) {
-            _tickets = list;
+            _tickets = list as List<Ticket>?;
           } else {
             _tickets=null;
             _getTicketsError =list.toString();

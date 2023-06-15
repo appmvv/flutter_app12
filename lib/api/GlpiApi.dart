@@ -15,7 +15,7 @@ import 'package:flutter_app/models/User.dart';
 import 'package:http/http.dart' as http;
 
 class GlpiApi {
-  static String GLPI_URL;
+  static String? GLPI_URL;
 
   static String GLPI_SESSION = "";
 
@@ -39,7 +39,7 @@ class GlpiApi {
     GLPI_URL = Settings.glpiUrl;
     String _credentials = Settings.credentials;
 
-    if (GLPI_URL.isEmpty ||
+    if (GLPI_URL!.isEmpty ||
         GLPI_URL == Settings.initUrl ||
         _credentials.isEmpty)
       return "Check your server url and credentials"; // на английском тк нет context
@@ -53,7 +53,7 @@ class GlpiApi {
 
     try {
       var response = await http.get(
-        Uri.parse(GLPI_URL + "initSession/"),
+        Uri.parse(GLPI_URL! + "initSession/"),
         headers: headers,
       );
 
@@ -148,7 +148,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL + "Ticket" + '?' + queryString),
+            Uri.parse(GLPI_URL! + "Ticket" + '?' + queryString),
           headers: headers,
         );
 
@@ -169,7 +169,7 @@ class GlpiApi {
     return _sessionError;
   }
 
-  Future<Object> getTicket(int id) async {
+  Future<Object> getTicket(int? id) async {
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
@@ -189,7 +189,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL + "Ticket/" + id.toString() + '?' + queryString),
+            Uri.parse(GLPI_URL! + "Ticket/" + id.toString() + '?' + queryString),
           headers: headers,
         );
 
@@ -208,7 +208,7 @@ class GlpiApi {
     return _sessionError;
   }
 
-  Future<Object> getFollowups(int ticketid) async {
+  Future<Object> getFollowups(int? ticketid) async {
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
@@ -230,7 +230,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL + "Ticket/$ticketid/ITILFollowup" + '?' + queryString),
+            Uri.parse(GLPI_URL! + "Ticket/$ticketid/ITILFollowup" + '?' + queryString),
           headers: headers,
         );
 
@@ -255,7 +255,7 @@ class GlpiApi {
   }
 
   Future<String> addFollowup(
-      int ticketid, String content, bool is_private) async {
+      int? ticketid, String content, bool is_private) async {
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
@@ -279,7 +279,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.post(
-            Uri.parse(GLPI_URL + "ITILFollowup/"),
+            Uri.parse(GLPI_URL! + "ITILFollowup/"),
           headers: headers,
           body: body,
         );
@@ -298,7 +298,7 @@ class GlpiApi {
     return _sessionError;
   }
 
-  Future<Object> getSolutions(int ticketid) async {
+  Future<Object> getSolutions(int? ticketid) async {
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
@@ -318,7 +318,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL + "Ticket/$ticketid/ITILSolution" + '?' + queryString),
+            Uri.parse(GLPI_URL! + "Ticket/$ticketid/ITILSolution" + '?' + queryString),
           headers: headers,
         );
 
@@ -344,7 +344,7 @@ class GlpiApi {
   }
 
   Future<String> addSolution(
-      int _ticketid, String _content, String _solutiontype) async {
+      int? _ticketid, String? _content, String? _solutiontype) async {
     if (GLPI_SESSION.isEmpty) {
       String _answer = await requestSession();
       if (_answer.isNotEmpty) return _answer;
@@ -357,7 +357,7 @@ class GlpiApi {
       _solution.solutiontypes_id =
           Settings.SolutionTypesByName[_solutiontype] == null
               ? 0
-              : Settings.SolutionTypesByName[_solutiontype].id;
+              : Settings.SolutionTypesByName[_solutiontype]!.id;
 
       Map<String, Object> _input = {'input': _solution};
 
@@ -370,7 +370,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.post(
-            Uri.parse(GLPI_URL + "ITILSolution/"),
+            Uri.parse(GLPI_URL! + "ITILSolution/"),
           headers: headers,
           body: body,
         );
@@ -411,7 +411,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL + "User" + '?' + queryString),
+            Uri.parse(GLPI_URL! + "User" + '?' + queryString),
           headers: headers,
         );
 
@@ -451,7 +451,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL + "SolutionType"),
+            Uri.parse(GLPI_URL! + "SolutionType"),
           headers: headers,
         );
 
@@ -544,25 +544,25 @@ class GlpiApi {
 
 //  Future<String> sendToken({String session, String url, int userId, String token}) async {
 
-  Future<String> sendToken({String token}) async {
+  Future<String> sendToken({String? token}) async {
 
     // String _session = session == null ? GLPI_SESSION : session;
     // String _url = url == null ? GLPI_URL : url;
     // int _userId = userId == null ? Settings.userID : userId;
 
     String _session = GLPI_SESSION;
-    String _url = GLPI_URL;
-    int _userId = Settings.userID;
+    String? _url = GLPI_URL;
+    int _userId = Settings.userID!;
 
-    String _token =
+    String? _token =
         token != null ? token : (Settings.getMessages ? Settings.tokenFCM : "");
 
-    if (_userId > 0 && _url.isNotEmpty && _session.isNotEmpty) {
+    if (_userId > 0 && _url!.isNotEmpty && _session.isNotEmpty) {
 
-      Map<String, String> input = new Map<String, String>();
+      Map<String, String?> input = new Map<String, String?>();
 
       input["mobile_notification"] =
-          _token.isEmpty ? _token : Settings.tokenPrefix + _token;
+          _token!.isEmpty ? _token : Settings.tokenPrefix + _token;
 
       Map<String, Object> _input = {'input': input};
 

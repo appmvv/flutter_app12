@@ -6,7 +6,7 @@ import 'SolutionItem.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SolutionList extends StatelessWidget {
-  final int _ticketId;
+  final int? _ticketId;
 
   SolutionList(this._ticketId);
 
@@ -19,14 +19,14 @@ class SolutionList extends StatelessWidget {
 
       return _error.isNotEmpty
           ? AlertDialog(
-              title: Text(AppLocalizations.of(context).errorSolution),
+              title: Text(AppLocalizations.of(context)!.errorSolution),
               content: Text(_error),
               actions: <Widget>[
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text(AppLocalizations.of(context).close)),
+                    child: Text(AppLocalizations.of(context)!.close)),
               ],
             )
           : (items == null || items.length == 0

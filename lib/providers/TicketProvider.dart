@@ -8,13 +8,13 @@ class TicketProvider with ChangeNotifier {
 //  GlpiApi api = GlpiApi();
   final GlpiApi api = GetIt.I.get<GlpiApi>();
 
-  Ticket _ticket;
-  Ticket get ticket => _ticket;
+  Ticket? _ticket;
+  Ticket? get ticket => _ticket;
 
   String _getError="";
   String get error => _getError;
 
-  Future<void> getTicket(int _ticketId) async {
+  Future<void> getTicket(int? _ticketId) async {
 
     _getError="";
 

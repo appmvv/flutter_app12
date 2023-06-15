@@ -88,8 +88,8 @@ Future<void> main() async {
 
   Stream<String> _tokenStream;
 
-  void setToken(String token) async {
-    preferences.setString("FCMtoken", token);
+  void setToken(String? token) async {
+    preferences.setString("FCMtoken", token!);
     Settings.tokenFCM = token;
     // sendToken будет выполнен в initSession после определения userId
   }

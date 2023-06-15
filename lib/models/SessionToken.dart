@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
-
 class SessionToken  {
 
-  final String token;
+  final String? token;
 
-  SessionToken({@required this.token});
+  SessionToken({required this.token});
 
   factory SessionToken.fromJson(Map<String, dynamic> json) {
     return SessionToken(
@@ -13,5 +11,5 @@ class SessionToken  {
   }
 
   @override
-  String toString() => token;
+  String toString() => token!;
 }

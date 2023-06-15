@@ -15,7 +15,7 @@ class SolutionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (_solution == null
-        ? new Text(AppLocalizations.of(context).errorFollowup)
+        ? new Text(AppLocalizations.of(context)!.errorFollowup)
         : new Container(
         margin: EdgeInsets.only(top:5, bottom:5),
         child: new Table(columnWidths: {
@@ -61,7 +61,7 @@ class SolutionItem extends StatelessWidget {
 
                       new Text(
                               Settings.usersById[_solution.users_id.toString()] != null
-                                  ? Settings.usersById[_solution.users_id.toString()]
+                                  ? Settings.usersById[_solution.users_id.toString()]!
                                   .getUserName()
                                   : _solution.users_id.toString()),
                       SizedBox(
@@ -70,7 +70,7 @@ class SolutionItem extends StatelessWidget {
 
                       new Text(
                           Settings.SolutionTypesById[_solution.solutiontypes_id.toString()] != null
-                              ? Settings.SolutionTypesById[_solution.solutiontypes_id.toString()].name
+                              ? Settings.SolutionTypesById[_solution.solutiontypes_id.toString()]!.name!
                               : "-"),
 
                       SizedBox(
@@ -88,7 +88,7 @@ class SolutionItem extends StatelessWidget {
                             child: Html(
                               //                        padding: EdgeInsets.all(12.0),
                                 data: HtmlUnescape()
-                                    .convert(_solution.content))),
+                                    .convert(_solution.content!))),
                       ),
                     ]))
           ])

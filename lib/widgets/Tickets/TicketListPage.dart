@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/TicketsProvider.dart';
 import 'package:flutter_app/widgets/Tickets/TicketList.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
 import '../SettingsPage.dart';
 import 'TicketPage.dart';
 
@@ -26,7 +24,7 @@ class TicketListPageState extends State<TicketListPage> {
     // application is off
     FirebaseMessaging.instance
         .getInitialMessage()
-        .then((RemoteMessage message) {
+        .then((RemoteMessage? message) {
 
       if (message != null) {
         int ticketid = int.tryParse(message.data["ticketid"]) ?? 0;
@@ -66,11 +64,11 @@ class TicketListPageState extends State<TicketListPage> {
       // }
 
       String _ticketid = message.data["ticketid"];
-      String _type = message.data["objecttype"];
+      String? _type = message.data["objecttype"];
 
       String _txt = (_type == "ticket"
-          ? AppLocalizations.of(context).newticket
-          : AppLocalizations.of(context).newfollowup) +
+          ? AppLocalizations.of(context)!.newticket
+          : AppLocalizations.of(context)!.newfollowup) +
           " " +
           _ticketid;
 
@@ -105,7 +103,7 @@ class TicketListPageState extends State<TicketListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).mainTitle +
+        title: Text(AppLocalizations.of(context)!.mainTitle +
             (Provider.of<TicketsProvider>(context).tickets == null ? "" :
             " [" +
             Provider.of<TicketsProvider>(context).getTicketsCount().toString() +

@@ -32,7 +32,7 @@ class TicketForm extends StatefulWidget {
 }
 
 class TicketFormState extends State<TicketForm> {
-  Ticket _ticket;
+  Ticket? _ticket;
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +40,26 @@ class TicketFormState extends State<TicketForm> {
     _ticket = widget._ticket;
 
     return (_ticket == null
-        ? new Text(AppLocalizations.of(context).errorTicket)
+        ? new Text(AppLocalizations.of(context)!.errorTicket)
         : new Padding(
             padding: EdgeInsets.all(10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                new Text(Settings.users[_ticket.recipient] != null
-                    ? Settings.users[_ticket.recipient].getUserName()
-                    : _ticket.recipient),
-                new Text(_ticket.getEntity()),
+                new Text(Settings.users[_ticket!.recipient] != null
+                    ? Settings.users[_ticket!.recipient]!.getUserName()
+                    : _ticket!.recipient!),
+                new Text(_ticket!.getEntity()!),
 
                 ReadfieldWidget(
-                    AppLocalizations.of(context).ticketName, _ticket.name),
+                    AppLocalizations.of(context)!.ticketName, _ticket!.name),
 
                 new Padding(
                   padding: EdgeInsets.only(top: 5, left: 10),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      AppLocalizations.of(context).ticketContent,
+                      AppLocalizations.of(context)!.ticketContent,
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.6),
                         fontSize: 14,
@@ -86,7 +86,7 @@ class TicketFormState extends State<TicketForm> {
                     //TODO uncaught exception when picture image url (ticket 321)
                       child: Html(
                           //  padding: EdgeInsets.all(12.0),
-                          data: HtmlUnescape().convert(_ticket.content))),
+                          data: HtmlUnescape().convert(_ticket!.content!))),
                 ),
 
                 new Table(
@@ -98,26 +98,26 @@ class TicketFormState extends State<TicketForm> {
                   children: [
                     TableRow(
                       children: [
-                        ReadfieldWidget(AppLocalizations.of(context).ticketType,
-                            _ticket.type >=0 && _ticket.type < Settings.ticket_types.length ? Settings.ticket_types[_ticket.type] : "-"
+                        ReadfieldWidget(AppLocalizations.of(context)!.ticketType,
+                            _ticket!.type! >=0 && _ticket!.type! < Settings.ticket_types.length ? Settings.ticket_types[_ticket!.type!] : "-"
                         ),
                         Text(""),
                         ReadfieldWidget(
-                          AppLocalizations.of(context).ticketResolveTime,
-                          Settings.getAppDate(_ticket.resolvetime),
+                          AppLocalizations.of(context)!.ticketResolveTime,
+                          Settings.getAppDate(_ticket!.resolvetime),
                         ),
                       ],
                     )
                   ],
                 ),
 
-                ReadfieldWidget(AppLocalizations.of(context).ticketStatus,
-                    _ticket.status >=0 && _ticket.status < Settings.ticket_statuses.length ? Settings.ticket_statuses[_ticket.status] : "-"
+                ReadfieldWidget(AppLocalizations.of(context)!.ticketStatus,
+                    _ticket!.status! >=0 && _ticket!.status! < Settings.ticket_statuses.length ? Settings.ticket_statuses[_ticket!.status!] : "-"
                 ),
                 ReadfieldWidget(
-                    AppLocalizations.of(context).ticketCategory,
-                    _ticket.category is String
-                        ? _ticket.category
+                    AppLocalizations.of(context)!.ticketCategory,
+                    _ticket!.category is String
+                        ? _ticket!.category as String?
                         : "-" //_ticket.category.toString()
                 ),
               ],

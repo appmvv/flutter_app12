@@ -1,15 +1,15 @@
 
 class Solution {
 
-  int id;
-  String date_creation;
-  String  content;
-  Object items_id;
+  int? id;
+  String? date_creation;
+  String?  content;
+  Object? items_id;
   static final String itemtype = "Ticket";
-  int users_id;
-  Object user_name;
-  int solutiontypes_id;
-  Object solutiontype_name;
+  int? users_id;
+  Object? user_name;
+  int? solutiontypes_id;
+  Object? solutiontype_name;
 
   //Solution({@required this.id, this.date_creation, this.content, this.items_id, this.itemtype, this.users_id, this.user_name, this.solutiontypes_id, this.solutiontype_name});
   Solution();

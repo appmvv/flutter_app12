@@ -7,8 +7,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SolutionPage extends StatelessWidget {
 
-  final int _ticketId;
-  Object _solvedate;
+  final int? _ticketId;
+  Object? _solvedate;
 
   SolutionPage(this._ticketId, this._solvedate);
 
@@ -22,9 +22,9 @@ class SolutionPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(AppLocalizations.of(context).solutions),
+            Text(AppLocalizations.of(context)!.solutions),
             Text(
-              AppLocalizations.of(context).ticket + " " + _ticketId.toString(),
+              AppLocalizations.of(context)!.ticket + " " + _ticketId.toString(),
               textScaleFactor: 0.7,
             ),
           ],

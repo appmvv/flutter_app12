@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
-
 class SolutionType {
 
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
 
-  SolutionType({@required this.id, this.name});
+  SolutionType({required this.id, this.name});
 
   factory SolutionType.fromJson(Map<String, dynamic> json) {
     return SolutionType(
@@ -15,7 +13,7 @@ class SolutionType {
   }
 
   @override
-  String toString() => name;
+  String toString() => name!;
 
 
 

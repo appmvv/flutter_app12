@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class FollowupPage extends StatelessWidget {
 
-  final int _ticketId;
+  final int? _ticketId;
 
   FollowupPage(this._ticketId);
 
@@ -20,12 +20,12 @@ class FollowupPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(AppLocalizations.of(context).followups +
+            Text(AppLocalizations.of(context)!.followups +
                 " [" +
                 Provider.of<FollowupsProvider>(context).getCount().toString() +
                 "]"),
             Text(
-              AppLocalizations.of(context).ticket + " " + _ticketId.toString(),
+              AppLocalizations.of(context)!.ticket + " " + _ticketId.toString(),
               textScaleFactor: 0.7,
             ),
           ],

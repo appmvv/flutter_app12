@@ -22,13 +22,13 @@ class FollowupsProvider with ChangeNotifier {
     return _followups.length;
   }
 
-  Future<void> getFollowups(int _ticketId) async {
+  Future<void> getFollowups(int? _ticketId) async {
     _getError = "";
 
     try {
       api.getFollowups(_ticketId).then((list) {
         if (list is List) {
-          _followups = list;
+          _followups = list as List<Followup>;
           notifyListeners();
         } else {
           _followups = [];
@@ -44,7 +44,7 @@ class FollowupsProvider with ChangeNotifier {
   }
 
   Future<String> addFollowup(
-      int _ticketId, String _content, bool _isPrivate) async {
+      int? _ticketId, String _content, bool _isPrivate) async {
     String string = await api.addFollowup(_ticketId, _content, _isPrivate);
 
     if (string.isEmpty) getFollowups(_ticketId);

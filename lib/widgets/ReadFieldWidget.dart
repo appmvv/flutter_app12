@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class ReadfieldWidget extends StatelessWidget {
   const ReadfieldWidget(
     String label,
-    String content,
+    String? content,
   )   : _label = label,
         _content = content;
 
   final String _label;
-  final String _content;
+  final String? _content;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class ReadfieldWidget extends StatelessWidget {
                         Flexible(
                             child: SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
-                                child: Text(_content)))
+                                child: Text(_content!)))
                       ])),
                 )
               ],

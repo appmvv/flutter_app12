@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
-
 class Entity {
 
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
 
-  Entity({@required this.id, this.name});
+  Entity({required this.id, this.name});
 
   factory Entity.fromJson(Map<String, dynamic> json) {
     return Entity(
@@ -16,7 +14,7 @@ class Entity {
   }
 
   @override
-  String toString() => name;
+  String toString() => name!;
 
 
 

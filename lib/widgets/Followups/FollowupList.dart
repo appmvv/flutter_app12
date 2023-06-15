@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'FollowupMessage.dart';
 
 class FollowupList extends StatelessWidget {
-  final int _ticketId;
+  final int? _ticketId;
 
   FollowupList(this._ticketId);
 
@@ -30,7 +30,7 @@ class FollowupList extends StatelessWidget {
                     _error.isNotEmpty
                         ? AlertDialog(
                             title: Text(
-                                AppLocalizations.of(context).errorFollowup),
+                                AppLocalizations.of(context)!.errorFollowup),
                             content: Text(_error),
                             actions: <Widget>[
                               TextButton(
@@ -38,7 +38,7 @@ class FollowupList extends StatelessWidget {
                                     Navigator.pop(context);
                                   },
                                   child:
-                                      Text(AppLocalizations.of(context).close)),
+                                      Text(AppLocalizations.of(context)!.close)),
                             ],
                           )
                         : RefreshIndicator(

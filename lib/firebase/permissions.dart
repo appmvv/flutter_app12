@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class Permissions extends StatefulWidget {
 class _Permissions extends State<Permissions> {
   bool _requested = false;
   bool _fetching = false;
-  NotificationSettings _settings;
+  late NotificationSettings _settings;
 
   Future<void> requestPermissions() async {
     setState(() {
@@ -66,13 +66,13 @@ class _Permissions extends State<Permissions> {
     String _text="";
 
     if (_settings.authorizationStatus ==  AuthorizationStatus.denied)
-      _text = AppLocalizations.of(context).pushnotifications + AppLocalizations.of(context).denied;
+      _text = AppLocalizations.of(context)!.pushnotifications + AppLocalizations.of(context)!.denied;
 
     if (_settings.authorizationStatus ==  AuthorizationStatus.notDetermined)
-      _text = AppLocalizations.of(context).pushnotifications + AppLocalizations.of(context).notDetermined;
+      _text = AppLocalizations.of(context)!.pushnotifications + AppLocalizations.of(context)!.notDetermined;
 
     if (_settings.authorizationStatus ==  AuthorizationStatus.provisional)
-      _text = AppLocalizations.of(context).pushnotifications + AppLocalizations.of(context).provisional;
+      _text = AppLocalizations.of(context)!.pushnotifications + AppLocalizations.of(context)!.provisional;
 
     return
       Padding(
