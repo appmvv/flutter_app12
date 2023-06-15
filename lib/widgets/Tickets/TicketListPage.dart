@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/TicketsProvider.dart';
 import 'package:flutter_app/widgets/Tickets/TicketList.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
@@ -42,26 +42,28 @@ class TicketListPageState extends State<TicketListPage> {
 
     // application is on
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
+      //RemoteNotification notification = message.notification;
 
-      // create android notification
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channel.description,
-                // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
-                icon: 'launch_background',
-              ),
-            ));
-      }
+
+      // AndroidNotification android = message.notification?.android;
+      //
+      // // create android notification
+      // if (notification != null && android != null) {
+      //   flutterLocalNotificationsPlugin.show(
+      //       notification.hashCode,
+      //       notification.title,
+      //       notification.body,
+      //       NotificationDetails(
+      //         android: AndroidNotificationDetails(
+      //           channel.id,
+      //           channel.name,
+      //           channelDescription: channel.description,
+      //           // TODO add a proper drawable resource to android, for now using
+      //           //      one that already exists in example app.
+      //           icon: 'launch_background',
+      //         ),
+      //       ));
+      // }
 
       String _ticketid = message.data["ticketid"];
       String _type = message.data["objecttype"];

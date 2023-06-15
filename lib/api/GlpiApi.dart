@@ -9,9 +9,10 @@ import 'package:flutter_app/models/Solution.dart';
 import 'package:flutter_app/models/SolutionType.dart';
 import 'package:flutter_app/models/Ticket.dart';
 import 'package:flutter_app/models/User.dart';
-import 'package:http_logger_library/log_level.dart';
-import 'package:http_logger_library/logging_middleware.dart';
-import 'package:http_middleware_library/http_with_middleware.dart';
+// import 'package:http_logger_library/log_level.dart';
+// import 'package:http_logger_library/logging_middleware.dart';
+// import 'package:http_middleware_library/http_with_middleware.dart';
+import 'package:http/http.dart' as http;
 
 class GlpiApi {
   static String GLPI_URL;
@@ -21,9 +22,13 @@ class GlpiApi {
   final String _sessionError = "Server session error";
 
   // для подробного догирования запросов
-  final HttpWithMiddleware _httpClient = HttpWithMiddleware.build(middlewares: [
-    HttpLogger(logLevel: LogLevel.BODY),
-  ]);
+  // final HttpWithMiddleware _httpClient = HttpWithMiddleware.build(middlewares: [
+  //   HttpLogger(logLevel: LogLevel.BODY),
+  // ]);
+
+  final _httpClient = http.Client();
+
+
 
   // вызывается из всех  запросов, если GLPI_SESSION.isEmpty
   // GlpiApi.GLPI_SESSION = "" при выходе из SettingsPage с сохранением настроек
@@ -47,8 +52,8 @@ class GlpiApi {
     };
 
     try {
-      var response = await _httpClient.get(
-        GLPI_URL + "initSession/",
+      var response = await http.get(
+        Uri.parse(GLPI_URL + "initSession/"),
         headers: headers,
       );
 
@@ -95,7 +100,7 @@ class GlpiApi {
 
     try {
       var response = await _httpClient.get(
-        _url + "killSession",
+          Uri.parse(_url + "killSession"),
         headers: headers,
       );
 
@@ -143,7 +148,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-          GLPI_URL + "Ticket" + '?' + queryString,
+            Uri.parse(GLPI_URL + "Ticket" + '?' + queryString),
           headers: headers,
         );
 
@@ -184,7 +189,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-          GLPI_URL + "Ticket/" + id.toString() + '?' + queryString,
+            Uri.parse(GLPI_URL + "Ticket/" + id.toString() + '?' + queryString),
           headers: headers,
         );
 
@@ -225,7 +230,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-          GLPI_URL + "Ticket/$ticketid/ITILFollowup" + '?' + queryString,
+            Uri.parse(GLPI_URL + "Ticket/$ticketid/ITILFollowup" + '?' + queryString),
           headers: headers,
         );
 
@@ -274,7 +279,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.post(
-          GLPI_URL + "ITILFollowup/",
+            Uri.parse(GLPI_URL + "ITILFollowup/"),
           headers: headers,
           body: body,
         );
@@ -313,7 +318,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-          GLPI_URL + "Ticket/$ticketid/ITILSolution" + '?' + queryString,
+            Uri.parse(GLPI_URL + "Ticket/$ticketid/ITILSolution" + '?' + queryString),
           headers: headers,
         );
 
@@ -365,7 +370,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.post(
-          GLPI_URL + "ITILSolution/",
+            Uri.parse(GLPI_URL + "ITILSolution/"),
           headers: headers,
           body: body,
         );
@@ -406,7 +411,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-          GLPI_URL + "User" + '?' + queryString,
+            Uri.parse(GLPI_URL + "User" + '?' + queryString),
           headers: headers,
         );
 
@@ -446,7 +451,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-          GLPI_URL + "SolutionType",
+            Uri.parse(GLPI_URL + "SolutionType"),
           headers: headers,
         );
 
@@ -570,7 +575,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.put(
-          _url + "User/${_userId}",
+            Uri.parse(_url + "User/${_userId}"),
           headers: headers,
           body: body,
         );
