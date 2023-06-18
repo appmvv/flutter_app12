@@ -14,7 +14,6 @@ class TicketListPage extends StatefulWidget {
 }
 
 class TicketListPageState extends State<TicketListPage> {
-
   @override
   void initState() {
     super.initState();
@@ -25,7 +24,6 @@ class TicketListPageState extends State<TicketListPage> {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
-
       if (message != null) {
         int ticketid = int.tryParse(message.data["ticketid"]) ?? 0;
 
@@ -35,53 +33,36 @@ class TicketListPageState extends State<TicketListPage> {
                 builder: (context) =>
                     TicketPage(ticketid, message.data["objecttype"])));
       }
-
     });
 
     // application is on
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      //RemoteNotification notification = message.notification;
+      String _ticketid = message.data["ticketid"] ?? '';
+      String _type = message.data["objecttype"] ?? '';
 
+      String _txt = '';
 
-      // AndroidNotification android = message.notification?.android;
-      //
-      // // create android notification
-      // if (notification != null && android != null) {
-      //   flutterLocalNotificationsPlugin.show(
-      //       notification.hashCode,
-      //       notification.title,
-      //       notification.body,
-      //       NotificationDetails(
-      //         android: AndroidNotificationDetails(
-      //           channel.id,
-      //           channel.name,
-      //           channelDescription: channel.description,
-      //           // TODO add a proper drawable resource to android, for now using
-      //           //      one that already exists in example app.
-      //           icon: 'launch_background',
-      //         ),
-      //       ));
-      // }
+      switch (_type) {
+        case 'ticket':
+          _txt = AppLocalizations.of(context)!.newticket;
+          break;
+        case 'followup':
+          _txt = '${AppLocalizations.of(context)!.newfollowup} $_ticketid';
+          break;
+        default:
+          _txt = '';
+      }
 
-      String _ticketid = message.data["ticketid"];
-      String? _type = message.data["objecttype"];
-
-      String _txt = (_type == "ticket"
-          ? AppLocalizations.of(context)!.newticket
-          : AppLocalizations.of(context)!.newfollowup) +
-          " " +
-          _ticketid;
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(_txt),
-        backgroundColor: Colors.green,
-      ));
-
+      if (_txt.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(_txt),
+          backgroundColor: Colors.green,
+        ));
+      }
     });
 
     // application is in background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-
       if (message != null) {
         int ticketid = int.tryParse(message.data["ticketid"]) ?? 0;
 
@@ -92,11 +73,7 @@ class TicketListPageState extends State<TicketListPage> {
                     TicketPage(ticketid, message.data["objecttype"])));
       }
 
-/*      print('A new onMessageOpenedApp event was published!');
-      Navigator.pushNamed(context, '/message',
-          arguments: MessageArguments(message, true));*/
     });
-
   }
 
   @override
@@ -104,10 +81,13 @@ class TicketListPageState extends State<TicketListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.mainTitle +
-            (Provider.of<TicketsProvider>(context).tickets == null ? "" :
-            " [" +
-            Provider.of<TicketsProvider>(context).getTicketsCount().toString() +
-            "]")),
+            (Provider.of<TicketsProvider>(context).tickets == null
+                ? ""
+                : " [" +
+                    Provider.of<TicketsProvider>(context)
+                        .getTicketsCount()
+                        .toString() +
+                    "]")),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),

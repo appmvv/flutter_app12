@@ -9,9 +9,6 @@ import 'package:flutter_app/models/Solution.dart';
 import 'package:flutter_app/models/SolutionType.dart';
 import 'package:flutter_app/models/Ticket.dart';
 import 'package:flutter_app/models/User.dart';
-// import 'package:http_logger_library/log_level.dart';
-// import 'package:http_logger_library/logging_middleware.dart';
-// import 'package:http_middleware_library/http_with_middleware.dart';
 import 'package:http/http.dart' as http;
 
 class GlpiApi {
@@ -21,14 +18,7 @@ class GlpiApi {
 
   final String _sessionError = "Server session error";
 
-  // для подробного догирования запросов
-  // final HttpWithMiddleware _httpClient = HttpWithMiddleware.build(middlewares: [
-  //   HttpLogger(logLevel: LogLevel.BODY),
-  // ]);
-
   final _httpClient = http.Client();
-
-
 
   // вызывается из всех  запросов, если GLPI_SESSION.isEmpty
   // GlpiApi.GLPI_SESSION = "" при выходе из SettingsPage с сохранением настроек
@@ -75,7 +65,6 @@ class GlpiApi {
   // вызывается из SettingPage при сохранении настроек
 //  Future<String> killSession(String session, String url, int userId) async {
   Future<String> killSession() async {
-
     String _session = GLPI_SESSION;
     String _url = Settings.glpiUrl;
 
@@ -100,7 +89,7 @@ class GlpiApi {
 
     try {
       var response = await _httpClient.get(
-          Uri.parse(_url + "killSession"),
+        Uri.parse(_url + "killSession"),
         headers: headers,
       );
 
@@ -148,7 +137,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL! + "Ticket" + '?' + queryString),
+          Uri.parse(GLPI_URL! + "Ticket" + '?' + queryString),
           headers: headers,
         );
 
@@ -189,7 +178,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL! + "Ticket/" + id.toString() + '?' + queryString),
+          Uri.parse(GLPI_URL! + "Ticket/" + id.toString() + '?' + queryString),
           headers: headers,
         );
 
@@ -230,7 +219,8 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL! + "Ticket/$ticketid/ITILFollowup" + '?' + queryString),
+          Uri.parse(
+              GLPI_URL! + "Ticket/$ticketid/ITILFollowup" + '?' + queryString),
           headers: headers,
         );
 
@@ -279,14 +269,13 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.post(
-            Uri.parse(GLPI_URL! + "ITILFollowup/"),
+          Uri.parse(GLPI_URL! + "ITILFollowup/"),
           headers: headers,
           body: body,
         );
 
         if (response.statusCode == 201 || response.statusCode == 207) {
           return ""; //data.values.first.toString();
-
         } else {
           return response.body.toString();
         }
@@ -318,7 +307,8 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL! + "Ticket/$ticketid/ITILSolution" + '?' + queryString),
+          Uri.parse(
+              GLPI_URL! + "Ticket/$ticketid/ITILSolution" + '?' + queryString),
           headers: headers,
         );
 
@@ -370,14 +360,13 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.post(
-            Uri.parse(GLPI_URL! + "ITILSolution/"),
+          Uri.parse(GLPI_URL! + "ITILSolution/"),
           headers: headers,
           body: body,
         );
 
         if (response.statusCode == 201 || response.statusCode == 207) {
           return ""; //data.values.first.toString();
-
         } else {
           return response.body.toString();
         }
@@ -411,7 +400,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL! + "User" + '?' + queryString),
+          Uri.parse(GLPI_URL! + "User" + '?' + queryString),
           headers: headers,
         );
 
@@ -451,7 +440,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.get(
-            Uri.parse(GLPI_URL! + "SolutionType"),
+          Uri.parse(GLPI_URL! + "SolutionType"),
           headers: headers,
         );
 
@@ -476,80 +465,7 @@ class GlpiApi {
     return _sessionError;
   }
 
-  // @GET("SolutionType")
-// Single<Response<List<SolutionType>>> getSolutionTypes();
-
-/*
-  Future<List<Entity>> getEnteties() async {
-
-    if (GLPI_SESSION.isEmpty) {
-      GLPI_SESSION = await _requestSession();
-    }
-
-    if (!GLPI_SESSION.isEmpty) {
-      var queryParams = {
-        'is_recursive': "true",
-      };
-
-      String queryString = Uri(queryParameters: queryParams).query;
-
-      Map<String, String> headers = {
-        HttpHeaders.contentTypeHeader: "application/json", // or whatever
-        'Session-Token': GLPI_SESSION,
-      };
-
-      try {
-        var response = await _httpClient.get(
-          GLPI_URL + "getMyEntities"+'?' + queryString,
-          headers: headers,
-        );
-
-        if (response.statusCode == 200 )  {
-
-          final data = json.decode(response.body) as Map;
-
-          List<Entity> answer =data["myentities"];
-
-          return answer;
-
-        } else {
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
-          throw Exception('Failed to get Users');
-        }
-      } catch (error) {
-//      _showToast("Get tickets failed 2: " + error.toString());
-      }
-    }
-
-    return new List<Entity>();
-  }
-*/
-
-  // FCM token
-  //      в main
-  //            при входе записывается из preferencies в Settings.tokenFCM
-  //            при получении токена из FCM
-  //                  записывается в preferencies и в Settings.tokenFCM
-  //      в SettingsPage
-  //            НЕТ при входе записывается из preferencies в Settings.tokenFCM
-  //
-  // sendToken вызывается
-  //    НЕТ из main каждый раз при получении токена из FCM
-  //    из initSession после getUsers и определения Id текущего пользователя (чтобы не дублировать и не ждать  обновления users)
-  //    из SettingsPage.putData -> killSession, чтобы очистить token в бд
-  // SendToken пишет токен в бд
-  //        пустой токен, если вызывается из killSession или Settings.getMessage == false
-  //        Settings.tokenFCM, если Settings.getMessage == true
-
-//  Future<String> sendToken({String session, String url, int userId, String token}) async {
-
   Future<String> sendToken({String? token}) async {
-
-    // String _session = session == null ? GLPI_SESSION : session;
-    // String _url = url == null ? GLPI_URL : url;
-    // int _userId = userId == null ? Settings.userID : userId;
-
     String _session = GLPI_SESSION;
     String? _url = GLPI_URL;
     int _userId = Settings.userID!;
@@ -558,7 +474,6 @@ class GlpiApi {
         token != null ? token : (Settings.getMessages ? Settings.tokenFCM : "");
 
     if (_userId > 0 && _url!.isNotEmpty && _session.isNotEmpty) {
-
       Map<String, String?> input = new Map<String, String?>();
 
       input["mobile_notification"] =
@@ -575,7 +490,7 @@ class GlpiApi {
 
       try {
         var response = await _httpClient.put(
-            Uri.parse(_url + "User/${_userId}"),
+          Uri.parse(_url + "User/${_userId}"),
           headers: headers,
           body: body,
         );
